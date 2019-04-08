@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App;
 
+use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
+
 /**
  * The configuration provider for the App module
  *
@@ -23,6 +25,7 @@ class ConfigProvider
         return [
             'dependencies' => $this->getDependencies(),
             'templates'    => $this->getTemplates(),
+            'doctrine'     => $this->getEntities()
         ];
     }
 
@@ -50,6 +53,27 @@ class ConfigProvider
                 'error'  => [__DIR__ . '/../templates/error'],
                 'layout' => [__DIR__ . '/../templates/layout'],
             ],
+        ];
+    }
+
+    /**
+     * Returns the doctrine entity configuration
+     */
+    public function getEntities() : array
+    {
+        return [
+            'driver' => [
+                'orm_default' => [
+                    'drivers' => [
+                        'App\Entity' => 'app_entity'
+                    ]
+                ],
+                'app_entity' => [
+                    'class' => AnnotationDriver::class,
+                    'cache' => 'array',
+                    'paths' => __DIR__ . '/Entity'
+                ]
+            ]
         ];
     }
 }
