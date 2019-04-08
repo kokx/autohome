@@ -1,19 +1,13 @@
 {
-    "name": "zendframework/zend-expressive-skeleton",
-    "description": "Zend expressive skeleton. Begin developing PSR-15 middleware applications in seconds!",
+    "name": "kokx/autohome",
+    "description": "Kokx's home automation system",
     "type": "project",
-    "homepage": "https://github.com/zendframework/zend-expressive-skeleton",
+    "homepage": "https://github.com/kokx/autohome",
     "license": "BSD-3-Clause",
     "keywords": [
-        "skeleton",
-        "middleware",
-        "psr",
-        "psr-7",
-        "psr-11",
-        "psr-15",
-        "zf",
-        "zendframework",
-        "zend-expressive"
+        "home",
+        "automation",
+        "domotica"
     ],
     "config": {
         "sort-packages": true
@@ -29,13 +23,6 @@
                 "zendframework/zend-expressive-twigrenderer"
             ]
         }
-    },
-    "support": {
-        "issues": "https://github.com/zendframework/zend-expressive-skeleton/issues",
-        "source": "https://github.com/zendframework/zend-expressive-skeleton",
-        "rss": "https://github.com/zendframework/zend-expressive-skeleton/releases.atom",
-        "slack": "https://zendframework-slack.herokuapp.com",
-        "forum": "https://discourse.zendframework.com/c/questions/expressive"
     },
     "require": {
         "php": "^7.1",
