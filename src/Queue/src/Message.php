@@ -12,6 +12,8 @@ interface Message
 
     /**
      * Obtain the payload of this message.
+     *
+     * Will be serialized by the queue.
      */
     public function getPayload();
 }

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="queue")
  */
-class Queue
+class QueueMessage
 {
 
     /**
@@ -48,7 +48,7 @@ class Queue
     protected $createdOn;
 
     /**
-     * Queue constructor.
+     * QueueMessage constructor.
      * @throws \Exception
      */
     public function __construct()

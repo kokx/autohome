@@ -11,6 +11,8 @@ return [
         // key is the alias name, the value is the service to which it points.
         'aliases' => [
             // Fully\Qualified\ClassOrInterfaceName::class => Fully\Qualified\ClassName::class,
+            // helps with autowiring
+            \Doctrine\ORM\EntityManager::class => 'doctrine.entity_manager.orm_default'
         ],
         // Use 'invokables' for constructor-less services, or services that do
         // not require arguments to the constructor. Map a service name to the
