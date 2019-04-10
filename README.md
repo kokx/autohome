@@ -26,7 +26,7 @@ Thus, as a database, sqlite is used. The message queue is implemented as a table
 in sqlite. This makes everything quick to setup. Performance of sqlite is fast
 enough that this will work good enough for us.
 
-## Decisions
+## Dependency Decisions
 
 ### Zend Expressive
 Zend Expressive is a clean way of working with middleware. We could have gone
@@ -49,3 +49,6 @@ SlmQueue we would implement that by jobs adding themselves every time they run
 and bootstrapping them somehow. This, however, seems prone to bugs. It might be
 better to be able to configure some repeating jobs, which will be executed
 regularly. Which would require us to roll our own.
+
+Since rolling our own was quick and simple enough (and probably works good
+enough as well, with some considerations), we will use this for now.

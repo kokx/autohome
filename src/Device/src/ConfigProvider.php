@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Device;
 
+use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
+
 /**
  * The configuration provider for the Device module
  *
