@@ -4,7 +4,8 @@ namespace Queue;
 
 use Queue\Entity\QueueMessage;
 use Queue\Mapper\QueueMapper;
-use Queue\Message\PlainMessage;
+use Queue\Message\Message;
+use Queue\Processor\ProcessorManager;
 
 class QueueManager
 {
@@ -15,13 +16,18 @@ class QueueManager
     protected $queueMapper;
 
     /**
-     * Job map
+     * @var ProcessorManager
      */
-    protected $map;
+    protected $processorManager;
 
-    public function __construct(QueueMapper $mapper)
+    /**
+     * @param QueueMapper $mapper
+     * @param ProcessorManager $processorManager
+     */
+    public function __construct(QueueMapper $mapper, ProcessorManager $processorManager)
     {
         $this->queueMapper = $mapper;
+        $this->processorManager = $processorManager;
     }
 
     /**
@@ -29,7 +35,9 @@ class QueueManager
      */
     public function process(Message $message) : void
     {
-        // TODO: process the Message
+        $processor = $this->processorManager->get($message->getName());
+
+        $processor->process($message);
     }
 
     /**
@@ -52,12 +60,13 @@ class QueueManager
             }
 
             // step 2: transform into message (currently, all are transformed to PlainMessage)
-            $message = new PlainMessage(
+            $message = new Message(
                 $queueMessage->getName(),
                 json_decode($queueMessage->getPayload(), JSON_OBJECT_AS_ARRAY)
             );
 
-            // TODO: use message
+            // step 3: actually process the message
+            $this->process($message);
         }
     }
 
