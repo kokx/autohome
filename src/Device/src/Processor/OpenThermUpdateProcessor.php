@@ -109,5 +109,4 @@ class OpenThermUpdateProcessor implements ProcessorInterface
         echo "\n\nClosing.\n";
         fclose($socket);
     }
-
 }
