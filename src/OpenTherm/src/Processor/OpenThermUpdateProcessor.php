@@ -1,10 +1,9 @@
 <?php
 
-namespace Device\Processor;
+namespace OpenTherm\Processor;
 
 use Device\Device\OpenThermGateway;
 use Device\Service\DeviceService;
-use http\Exception\RuntimeException;
 use Queue\Message\Message;
 use Queue\Processor\ProcessorInterface;
 
@@ -67,7 +66,7 @@ class OpenThermUpdateProcessor implements ProcessorInterface
         $payload = $message->getPayload();
 
         if (!isset($payload['device'])) {
-            throw new RuntimeException("No device given.");
+            throw new \RuntimeException("No device given.");
         }
 
         /** @var OpenThermGateway $device */

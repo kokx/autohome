@@ -10,6 +10,7 @@
                 <tr>
                     <th>Sensor name</th>
                     <th>Value</th>
+                    <th>Last update</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -17,6 +18,7 @@
                     <tr>
                         <td>{{ sensor.sensor }}</td>
                         <td>{{ sensor.state }}</td>
+                        <td>{{ sensor.createdAt|date('Y-m-d H:i:s') }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>

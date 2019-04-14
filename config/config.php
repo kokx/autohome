@@ -13,6 +13,7 @@ $cacheConfig = [
 ];
 
 $aggregator = new ConfigAggregator([
+    \OpenTherm\ConfigProvider::class,
     \Device\ConfigProvider::class,
     \Queue\ConfigProvider::class,
     \Zend\HttpHandlerRunner\ConfigProvider::class,

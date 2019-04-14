@@ -1,9 +1,8 @@
 <?php
 
-namespace Device\Device;
+namespace OpenTherm\Device;
 
 use Device\Device\DeviceInterface;
-use Device\Service\DeviceService;
 
 /**
  * Device based on the OpenTherm Gateway, by Schelte Bron.

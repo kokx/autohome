@@ -50,7 +50,8 @@
         "psr-4": {
             "App\\": "src/App/src/",
             "Queue\\": "src/Queue/src/",
-            "Device\\": "src/Device/src/"
+            "Device\\": "src/Device/src/",
+            "OpenTherm\\": "src/OpenTherm/src/"
         }
     },
     "autoload-dev": {
