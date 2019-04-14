@@ -34,4 +34,25 @@ class SensorLogMapper
 
         $this->em->flush();
     }
+
+    /**
+     * Find the last sensor data for a device.
+     * @param string $deviceName
+     */
+    public function findLastSensorData(string $deviceName) : iterable
+    {
+        $dql = "SELECT s FROM Device\Entity\SensorLog s
+            WHERE s.device = :device
+            GROUP BY s.device, s.sensor
+            HAVING s.createdAt = MAX(s.createdAt)
+            ORDER BY s.id ASC";
+
+        $query = $this->em->createQuery($dql);
+
+        $query->execute([
+            'device' => $deviceName
+        ]);
+
+        return $query->getResult();
+    }
 }

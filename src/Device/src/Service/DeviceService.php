@@ -78,4 +78,14 @@ class DeviceService
 
         $this->sensorLogMapper->persistMultiple($log);
     }
+
+    /**
+     * Get the last sensor data
+     *
+     * @param string $deviceName
+     */
+    public function getLastSensorData(string $deviceName) : iterable
+    {
+        return $this->sensorLogMapper->findLastSensorData($deviceName);
+    }
 }
