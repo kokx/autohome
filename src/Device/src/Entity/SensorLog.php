@@ -21,7 +21,7 @@ class SensorLog
 
     /**
      * Name of the device for this log entry.
-     * ORM\Column(type="string")
+     * @ORM\Column(type="string")
      * @var string
      */
     protected $device;
