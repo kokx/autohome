@@ -1,6 +1,6 @@
 <?php
 
-namespace Device\Handler;
+namespace Device\Device;
 
 use Device\Device\DeviceInterface;
 

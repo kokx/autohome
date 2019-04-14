@@ -3,7 +3,7 @@
 return [
     'devices' => [
         'otgw' => [
-            'type' => \Device\Handler\OpenThermGateway::class,
+            'type' => \Device\Device\OpenThermGateway::class,
             'options' => [
                 'host' => '',
                 'port' => 6638
