@@ -2,11 +2,27 @@
 
 namespace Device\Processor;
 
+use Device\Device\OpenThermGateway;
+use Device\Service\DeviceService;
+use http\Exception\RuntimeException;
 use Queue\Message\Message;
 use Queue\Processor\ProcessorInterface;
 
 class OpenThermUpdateProcessor implements ProcessorInterface
 {
+
+    /**
+     * @var DeviceService
+     */
+    protected $deviceService;
+
+    /**
+     * OpenThermUpdateProcessor constructor.
+     */
+    public function __construct(DeviceService $deviceService)
+    {
+        $this->deviceService = $deviceService;
+    }
 
     /**
      * Read sensor data from the OpenTherm Gateway.
@@ -48,8 +64,17 @@ class OpenThermUpdateProcessor implements ProcessorInterface
      */
     public function process(Message $message): void
     {
+        $payload = $message->getPayload();
+
+        if (!isset($payload['device'])) {
+            throw new RuntimeException("No device given.");
+        }
+
+        /** @var OpenThermGateway $device */
+        $device = $this->deviceService->getDevice($payload['device']);
+
         echo "Connecting.\n";
-        $socket = fsockopen('', 0);
+        $socket = fsockopen($device->getHost(), $device->getPort());
 
         echo "Writing.\n";
         // CR-LF is required. The gateway won't respond otherwise

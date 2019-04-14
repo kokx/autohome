@@ -31,6 +31,7 @@ class ProcessorManager
     public function __construct(ContainerInterface $container, array $aliases = [])
     {
         $this->container = $container;
+        $this->setAliases($aliases);
     }
 
     /**

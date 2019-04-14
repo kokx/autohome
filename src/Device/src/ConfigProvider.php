@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Device;
 
+use Device\Service\DeviceService;
+use Device\Service\Factory\DeviceServiceFactory;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 
 /**
@@ -37,6 +39,7 @@ class ConfigProvider
             'invokables' => [
             ],
             'factories'  => [
+                DeviceService::class => DeviceServiceFactory::class,
             ],
         ];
     }
