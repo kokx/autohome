@@ -73,14 +73,10 @@ class OpenThermUpdateProcessor implements ProcessorInterface
         /** @var OpenThermGateway $device */
         $device = $this->deviceService->getDevice($payload['device']);
 
-        echo "Connecting.\n";
         $socket = fsockopen($device->getHost(), $device->getPort());
 
-        echo "Writing.\n";
         // CR-LF is required. The gateway won't respond otherwise
         fwrite($socket, "PS=1\r\n");
-
-        echo "Reading.\n\n";
 
         $newlines = 0;
         $data = "";
@@ -95,8 +91,7 @@ class OpenThermUpdateProcessor implements ProcessorInterface
         $data = explode("\n", $data);
 
         if (count($data) < 2) {
-            echo "Not enough data found.";
-            return;
+            throw new \RuntimeException("Not enough data in OpenTherm Gateway output.");
         }
 
         $data = explode(',', $data[1]);
@@ -129,9 +124,8 @@ class OpenThermUpdateProcessor implements ProcessorInterface
             'dhw_burner_operation_hours'    => $data[24],
         ];
 
-        var_dump($data);
+        $this->deviceService->logSensorData($payload['device'], $data);
 
-        echo "\n\nClosing.\n";
         fclose($socket);
     }
 }
