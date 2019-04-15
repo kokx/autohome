@@ -16,6 +16,11 @@ class OpenThermGateway implements DeviceInterface
     /**
      * @var string
      */
+    protected $name;
+
+    /**
+     * @var string
+     */
     protected $host;
 
     /**
@@ -25,9 +30,10 @@ class OpenThermGateway implements DeviceInterface
 
     /**
      * OpenThermGateway constructor.
+     * @param string $name
      * @param array $options
      */
-    public function __construct(array $options)
+    public function __construct(string $name, array $options)
     {
         if (!isset($options['host'])) {
             throw new \InvalidArgumentException("No host given.");
@@ -36,8 +42,17 @@ class OpenThermGateway implements DeviceInterface
             throw new \InvalidArgumentException("No port given.");
         }
 
+        $this->name = $name;
         $this->host = $options['host'];
         $this->port = $options['port'];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getName(): string
+    {
+        return $this->name;
     }
 
     /**
