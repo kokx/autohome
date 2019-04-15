@@ -23,7 +23,6 @@ class ConfigProvider
     {
         return [
             'dependencies' => $this->getDependencies(),
-            'templates'    => $this->getTemplates(),
             'doctrine'     => $this->getEntities(),
         ];
     }
@@ -37,18 +36,6 @@ class ConfigProvider
             'invokables' => [
             ],
             'factories'  => [
-            ],
-        ];
-    }
-
-    /**
-     * Returns the templates configuration
-     */
-    public function getTemplates() : array
-    {
-        return [
-            'paths' => [
-                'queue'    => [__DIR__ . '/../templates/'],
             ],
         ];
     }

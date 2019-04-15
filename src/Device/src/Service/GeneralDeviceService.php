@@ -55,7 +55,7 @@ class GeneralDeviceService
 
         $class = $config['type'];
 
-        return new $class($config['options']);
+        return new $class($name, $config['options']);
     }
 
     /**
