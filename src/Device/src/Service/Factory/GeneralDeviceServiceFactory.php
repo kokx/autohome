@@ -4,10 +4,10 @@ namespace Device\Service\Factory;
 
 use Device\Device\DeviceManager;
 use Device\Mapper\SensorLogMapper;
-use Device\Service\DeviceService;
+use Device\Service\GeneralDeviceService;
 use Psr\Container\ContainerInterface;
 
-class DeviceServiceFactory
+class GeneralDeviceServiceFactory
 {
 
     public function __invoke(ContainerInterface $container)
@@ -15,6 +15,6 @@ class DeviceServiceFactory
         $config = $container->get('config');
         $mapper = $container->get(SensorLogMapper::class);
 
-        return new DeviceService($config['devices'], $mapper);
+        return new GeneralDeviceService($config['devices'], $mapper);
     }
 }

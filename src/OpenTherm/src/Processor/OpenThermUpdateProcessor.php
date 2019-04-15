@@ -3,7 +3,7 @@
 namespace OpenTherm\Processor;
 
 use Device\Device\OpenThermGateway;
-use Device\Service\DeviceService;
+use Device\Service\GeneralDeviceService;
 use Queue\Message\Message;
 use Queue\Processor\ProcessorInterface;
 
@@ -11,14 +11,14 @@ class OpenThermUpdateProcessor implements ProcessorInterface
 {
 
     /**
-     * @var DeviceService
+     * @var GeneralDeviceService
      */
     protected $deviceService;
 
     /**
      * OpenThermUpdateProcessor constructor.
      */
-    public function __construct(DeviceService $deviceService)
+    public function __construct(GeneralDeviceService $deviceService)
     {
         $this->deviceService = $deviceService;
     }

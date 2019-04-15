@@ -3,14 +3,13 @@
 namespace Device\Service;
 
 use Device\Device\DeviceInterface;
-use Device\Device\DeviceManager;
 use Device\Entity\SensorLog;
 use Device\Mapper\SensorLogMapper;
 
 /**
  * Provides several services for devices. Mainly centered around data access.
  */
-class DeviceService
+class GeneralDeviceService
 {
 
     /**

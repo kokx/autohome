@@ -2,7 +2,7 @@
 
 namespace Device\Handler;
 
-use Device\Service\DeviceService;
+use Device\Service\GeneralDeviceService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -18,16 +18,16 @@ class DeviceHandler implements RequestHandlerInterface
     protected $templateRenderer;
 
     /**
-     * @var DeviceService
+     * @var GeneralDeviceService
      */
     protected $deviceService;
 
     /**
      * DeviceHandler constructor.
      * @param TemplateRendererInterface $templateRenderer
-     * @param DeviceService $deviceService
+     * @param GeneralDeviceService $deviceService
      */
-    public function __construct(TemplateRendererInterface $templateRenderer, DeviceService $deviceService)
+    public function __construct(TemplateRendererInterface $templateRenderer, GeneralDeviceService $deviceService)
     {
         $this->templateRenderer = $templateRenderer;
         $this->deviceService = $deviceService;
