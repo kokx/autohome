@@ -2,7 +2,6 @@
 
 namespace Device\Service\Factory;
 
-use Device\Device\DeviceManager;
 use Device\Mapper\SensorLogMapper;
 use Device\Service\GeneralDeviceService;
 use Psr\Container\ContainerInterface;

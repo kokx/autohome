@@ -3,6 +3,7 @@
 namespace OpenTherm\Device;
 
 use Device\Device\DeviceInterface;
+use OpenTherm\Service\OpenThermService;
 
 /**
  * Device based on the OpenTherm Gateway, by Schelte Bron.
@@ -37,6 +38,14 @@ class OpenThermGateway implements DeviceInterface
 
         $this->host = $options['host'];
         $this->port = $options['port'];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getDeviceServiceName(): string
+    {
+        return OpenThermService::class;
     }
 
     /**

@@ -23,14 +23,21 @@ class GeneralDeviceService
     protected $config;
 
     /**
+     * @var DeviceServiceManager
+     */
+    protected $deviceManager;
+
+    /**
      * DeviceService constructor.
      * @param array $config
      * @param SensorLogMapper $sensorLogMapper
+     * @param DeviceServiceManager $deviceManager
      */
-    public function __construct(array $config, SensorLogMapper $sensorLogMapper)
+    public function __construct(array $config, SensorLogMapper $sensorLogMapper, DeviceServiceManager $deviceManager)
     {
         $this->config = $config;
         $this->sensorLogMapper = $sensorLogMapper;
+        $this->deviceManager = $deviceManager;
     }
 
     /**
@@ -49,6 +56,15 @@ class GeneralDeviceService
         $class = $config['type'];
 
         return new $class($config['options']);
+    }
+
+    /**
+     * Get the service for a device.
+     * @param DeviceInterface $device
+     */
+    public function getDeviceService(DeviceInterface $device) : DeviceServiceInterface
+    {
+        return $this->deviceManager->getDeviceService($device->getDeviceServiceName());
     }
 
     /**

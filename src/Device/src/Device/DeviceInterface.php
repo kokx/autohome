@@ -10,4 +10,10 @@ interface DeviceInterface
      * @param array $options
      */
     public function __construct(array $options);
+
+    /**
+     * Get device service name.
+     * @return string
+     */
+    public function getDeviceServiceName() : string;
 }
