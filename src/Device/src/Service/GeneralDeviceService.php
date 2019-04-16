@@ -97,10 +97,10 @@ class GeneralDeviceService
     /**
      * Get the last sensor data
      *
-     * @param string $deviceName
+     * @return SensorLog[]
      */
-    public function getLastSensorData(string $deviceName) : iterable
+    public function getLastSensorData(DeviceInterface $device) : iterable
     {
-        return $this->sensorLogMapper->findLastSensorData($deviceName);
+        return $this->sensorLogMapper->findLastSensorData($device->getName());
     }
 }

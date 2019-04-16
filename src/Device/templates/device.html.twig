@@ -1,28 +1,13 @@
 {% extends '@layout/default.html.twig' %}
 
-{% block title %}Device{% endblock %}
+{% block title %}{{ device.name }}{% endblock %}
 
 {% block content %}
     <div class="row">
         <div class="col">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Sensor name</th>
-                    <th>Value</th>
-                    <th>Last update</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for sensor in sensorData %}
-                    <tr>
-                        <td>{{ sensor.sensor }}</td>
-                        <td>{{ sensor.state }}</td>
-                        <td>{{ sensor.createdAt|date('Y-m-d H:i:s') }}</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+            {{ summary|raw }}
         </div>
     </div>
+
+    TODO: link to sensor data
 {% endblock %}

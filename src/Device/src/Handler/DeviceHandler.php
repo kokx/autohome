@@ -41,12 +41,15 @@ class DeviceHandler implements RequestHandlerInterface
     {
         $deviceName = $request->getAttribute('name');
         $device = $this->deviceService->getDevice($deviceName);
-        $sensorData = $this->deviceService->getLastSensorData($deviceName);
+        $sensorData = $this->deviceService->getLastSensorData($device);
+
+        $deviceService = $this->deviceService->getDeviceService($device);
 
         return new HtmlResponse(
             $this->templateRenderer->render('device::device', [
                 'device' => $device,
-                'sensorData' => $sensorData
+                'sensorData' => $sensorData,
+                'summary' => $deviceService->getSummary($device),
             ])
         );
     }
