@@ -38,4 +38,5 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
 
     $app->get('/devices', \Device\Handler\DeviceListHandler::class, 'devices.list');
     $app->get('/devices/{name:[a-zA-Z0-9._-]+}', \Device\Handler\DeviceHandler::class, 'devices.show');
+    $app->get('/devices/{name:[a-zA-Z0-9._-]+}/sensors', \Device\Handler\SensorsHandler::class, 'devices.sensors');
 };
