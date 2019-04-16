@@ -9,13 +9,19 @@
             <tr>
                 <th scope="col">Device</th>
                 <th scope="col">Identifier</th>
+                <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
             {% for device in devices %}
             <tr>
-                <td>OpenTherm Gateway</td>
-                <td>Current temperature: 32 degrees celsius</td>
+                <td>{{ device.name }}</td>
+                <td>{{ device.identifier }}</td>
+                <td>
+                    <a href="{{ path('devices.show', { 'name': device.identifier }) }}" class="btn btn-primary">
+                        View
+                    </a>
+                </td>
             </tr>
             {% endfor %}
             </tbody>

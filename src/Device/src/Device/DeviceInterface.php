@@ -13,7 +13,13 @@ interface DeviceInterface
     public function __construct(string $name, array $options);
 
     /**
-     * Get the device name.
+     * Get the device identifier.
+     * @return string
+     */
+    public function getIdentifier() : string;
+
+    /**
+     * Get the name of the device type.
      * @return string
      */
     public function getName() : string;

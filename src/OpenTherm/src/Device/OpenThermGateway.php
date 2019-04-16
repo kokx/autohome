@@ -50,9 +50,17 @@ class OpenThermGateway implements DeviceInterface
     /**
      * {@inheritDoc}
      */
-    public function getName(): string
+    public function getIdentifier(): string
     {
         return $this->name;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getName(): string
+    {
+        return 'OpenTherm Gateway';
     }
 
     /**

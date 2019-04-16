@@ -1,6 +1,6 @@
 {% extends '@layout/default.html.twig' %}
 
-{% block title %}{{ device.name }}{% endblock %}
+{% block title %}{{ device.identifier }}{% endblock %}
 
 {% block content %}
     <div class="row">
@@ -9,5 +9,5 @@
         </div>
     </div>
 
-    <a href="{{ path('devices.sensors', { 'name': device.name }) }}">View all sensor data</a>
+    <a href="{{ path('devices.sensors', { 'name': device.identifier }) }}">View all sensor data</a>
 {% endblock %}

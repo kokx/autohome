@@ -114,6 +114,6 @@ class GeneralDeviceService
      */
     public function getLastSensorData(DeviceInterface $device) : iterable
     {
-        return $this->sensorLogMapper->findLastSensorData($device->getName());
+        return $this->sensorLogMapper->findLastSensorData($device->getIdentifier());
     }
 }
