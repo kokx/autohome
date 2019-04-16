@@ -59,6 +59,19 @@ class GeneralDeviceService
     }
 
     /**
+     * Get all devices.
+     * @return DeviceInterface[]
+     */
+    public function getAllDevices()
+    {
+        $devices = [];
+        foreach ($this->config as $name => $config) {
+            $devices[$name] = $this->getDevice($name);
+        }
+        return $devices;
+    }
+
+    /**
      * Get the service for a device.
      * @param DeviceInterface $device
      */

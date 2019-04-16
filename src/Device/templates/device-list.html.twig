@@ -8,14 +8,16 @@
             <thead>
             <tr>
                 <th scope="col">Device</th>
-                <th scope="col">Summary</th>
+                <th scope="col">Identifier</th>
             </tr>
             </thead>
             <tbody>
+            {% for device in devices %}
             <tr>
                 <td>OpenTherm Gateway</td>
                 <td>Current temperature: 32 degrees celsius</td>
             </tr>
+            {% endfor %}
             </tbody>
         </table>
     </div>
