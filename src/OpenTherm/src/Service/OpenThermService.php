@@ -5,6 +5,9 @@ namespace OpenTherm\Service;
 use Device\Device\DeviceInterface;
 use Device\Service\DeviceServiceInterface;
 use Device\Service\GeneralDeviceService;
+use OpenTherm\Processor\OpenThermUpdateProcessor;
+use Queue\Message\Message;
+use Queue\QueueManager;
 use Zend\Expressive\Template\TemplateRendererInterface;
 
 class OpenThermService implements DeviceServiceInterface
@@ -21,12 +24,22 @@ class OpenThermService implements DeviceServiceInterface
     protected $generalDeviceService;
 
     /**
+     * @var QueueManager
+     */
+    protected $queueManager;
+
+    /**
      * OpenThermService constructor.
      */
-    public function __construct(TemplateRendererInterface $templateRenderer, GeneralDeviceService $generalDeviceService)
+    public function __construct(
+        TemplateRendererInterface $templateRenderer,
+        GeneralDeviceService $generalDeviceService,
+        QueueManager $queueManager
+    )
     {
         $this->templateRenderer = $templateRenderer;
         $this->generalDeviceService = $generalDeviceService;
+        $this->queueManager = $queueManager;
     }
 
     /**
@@ -49,5 +62,18 @@ class OpenThermService implements DeviceServiceInterface
             'device' => $device,
             'sensorData' => $sensorData
         ]);
+    }
+
+    /**
+     * @param DeviceInterface $device
+     */
+    public function updateSensors(DeviceInterface $device)
+    {
+        $this->queueManager->push(new Message(
+            OpenThermUpdateProcessor::class,
+            [
+                'device' => $device->getIdentifier()
+            ]
+        ));
     }
 }

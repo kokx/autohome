@@ -2,6 +2,7 @@
 
 namespace Queue;
 
+use OpenTherm\Processor\OpenThermUpdateProcessor;
 use Queue\Entity\QueueMessage;
 use Queue\Mapper\QueueMapper;
 use Queue\Message\Message;
@@ -19,6 +20,11 @@ class QueueManager
      * @var ProcessorManager
      */
     protected $processorManager;
+
+    /**
+     * @var MessageRepeater[]
+     */
+    protected $repeaters;
 
     /**
      * @param QueueMapper $mapper
@@ -52,6 +58,9 @@ class QueueManager
             $queueMessage = $this->queueMapper->pop();
 
             if ($queueMessage === null) {
+                // first check if repeating messages need to be added again
+                $this->checkRepeated();
+
                 // no messages to process, sleep for a little bit
                 // we use time_nanosleep, since usleep consumes some cycles while sleeping
                 // (at least, on my machine)
@@ -87,5 +96,26 @@ class QueueManager
         $queueMessage->setScheduledAt($sheduledAt);
 
         $this->queueMapper->push($queueMessage);
+    }
+
+    /**
+     * Push repeated messages if needed.
+     */
+    protected function checkRepeated()
+    {
+        foreach ($this->repeaters as $repeater) {
+            $message = $repeater->getRepeatMessage();
+            if ($message !== null) {
+                $this->push($message);
+            }
+        }
+    }
+
+    /**
+     * Add a repeated message.
+     */
+    public function addRepeater(MessageRepeater $messageRepeater)
+    {
+        $this->repeaters[] = $messageRepeater;
     }
 }
