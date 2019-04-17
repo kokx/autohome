@@ -43,7 +43,7 @@ class SetActuatorHandler implements RequestHandlerInterface
 
         $actuator = $request->getAttribute('actuator');
 
-        $post = $request->getParsedBody();
+        $deviceService->setActuator($device, $actuator, $request->getParsedBody());
 
         return new HtmlResponse($this->templateRenderer->render("device::actuator", [
             'device' => $device,

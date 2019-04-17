@@ -5,6 +5,7 @@ namespace OpenTherm\Service;
 use Device\Device\DeviceInterface;
 use Device\Service\DeviceServiceInterface;
 use Device\Service\GeneralDeviceService;
+use OpenTherm\Processor\ChangeSetpointProcessor;
 use OpenTherm\Processor\OpenThermUpdateProcessor;
 use Queue\Message\Message;
 use Queue\QueueManager;
@@ -88,8 +89,21 @@ class OpenThermService implements DeviceServiceInterface
     {
         switch ($actuator) {
             case 'room_setpoint':
-                // TODO: send message to the queue
+                if (!isset($data['state']) || !is_numeric($data['state'])) {
+                    throw new \InvalidArgumentException('Invalid room setpoint given.');
+                }
+
+                $this->queueManager->push(new Message(
+                    ChangeSetpointProcessor::class,
+                    [
+                        'device' => $device,
+                        'actuator' => $actuator,
+                        'setpoint' => $data['state']
+                    ]
+                ));
+
                 // TODO: add sensor observation for 'room_setpoint'
+                break;
             default:
                 throw new \InvalidArgumentException("This device does not have the actuator '$actuator'.'");
         }
