@@ -1,5 +1,19 @@
-TODO: temperature change thingy
-
-{{ dump(device) }}
-{{ dump(actuator) }}
-{{ dump(sensor) }}
+<div class="card col-3">
+    <div class="card-body">
+        <form>
+            <div class="form-group">
+                <label for="actuator_state">Room setpoint</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <button class="btn btn-outline-secondary">-</button>
+                    </div>
+                    <input id="actuator_state" class="form-control" name="state" type="number" value="{{ sensor.state }}" step="0.5">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary">+</button>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Change setpoint</button>
+        </form>
+    </div>
+</div>
