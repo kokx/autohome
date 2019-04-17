@@ -102,7 +102,10 @@ class OpenThermService implements DeviceServiceInterface
                     ]
                 ));
 
-                // TODO: add sensor observation for 'room_setpoint'
+                // add sensor observation for 'room_setpoint'
+                $this->generalDeviceService->logSensorData($device->getIdentifier(), [
+                    'room_setpoint' => $data['state']
+                ]);
                 break;
             default:
                 throw new \InvalidArgumentException("This device does not have the actuator '$actuator'.'");
