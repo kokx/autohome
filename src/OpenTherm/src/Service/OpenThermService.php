@@ -35,8 +35,7 @@ class OpenThermService implements DeviceServiceInterface
         TemplateRendererInterface $templateRenderer,
         GeneralDeviceService $generalDeviceService,
         QueueManager $queueManager
-    )
-    {
+    ) {
         $this->templateRenderer = $templateRenderer;
         $this->generalDeviceService = $generalDeviceService;
         $this->queueManager = $queueManager;
