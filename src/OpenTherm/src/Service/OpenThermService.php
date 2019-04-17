@@ -70,9 +70,11 @@ class OpenThermService implements DeviceServiceInterface
     {
         switch ($actuator) {
             case 'room_setpoint':
+                $sensor = $this->generalDeviceService->getSensorState($device, 'room_setpoint');
                 return $this->templateRenderer->render('open-therm::setpoint', [
                     'device' => $device,
-                    'actuator' => $actuator
+                    'actuator' => $actuator,
+                    'sensor' => $sensor
                 ]);
             default:
                 throw new \InvalidArgumentException("This device does not have the actuator '$actuator'.'");

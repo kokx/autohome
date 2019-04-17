@@ -116,4 +116,14 @@ class GeneralDeviceService
     {
         return $this->sensorLogMapper->findLastSensorData($device->getIdentifier());
     }
+
+    /**
+     * Get the last state of a sensor.
+     *
+     * @return SensorLog
+     */
+    public function getSensorState(DeviceInterface $device, string $sensor) : SensorLog
+    {
+        return $this->sensorLogMapper->findSensorState($device->getIdentifier(), $sensor);
+    }
 }

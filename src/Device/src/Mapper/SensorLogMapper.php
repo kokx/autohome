@@ -55,4 +55,27 @@ class SensorLogMapper
 
         return $query->getResult();
     }
+
+    /**
+     * Find the last sensor state.
+     * @param string $device
+     * @param string $sensor
+     */
+    public function findSensorState(string $device, string $sensor) : SensorLog
+    {
+        $dql = "SELECT s FROM Device\Entity\SensorLog s
+            WHERE s.device = :device
+                AND s.sensor = :sensor
+            GROUP BY s.device, s.sensor
+            HAVING s.createdAt = MAX(s.createdAt)";
+
+        $query = $this->em->createQuery($dql);
+
+        $query->execute([
+            'device' => $device,
+            'sensor' => $sensor
+        ]);
+
+        return $query->getSingleResult();
+    }
 }
