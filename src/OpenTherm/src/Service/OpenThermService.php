@@ -57,10 +57,26 @@ class OpenThermService implements DeviceServiceInterface
         $sensorData = $newSensorData;
 
         // get important sensors
-        return $this->templateRenderer->render('open-therm::opentherm', [
+        return $this->templateRenderer->render('open-therm::device', [
             'device' => $device,
             'sensorData' => $sensorData
         ]);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function showActuator(DeviceInterface $device, string $actuator): string
+    {
+        switch ($actuator) {
+            case 'room_setpoint':
+                return $this->templateRenderer->render('open-therm::setpoint', [
+                    'device' => $device,
+                    'actuator' => $actuator
+                ]);
+            default:
+                throw new \InvalidArgumentException("This device does not have the actuator '$actuator'.'");
+        }
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Device\Handler;
 
+use Device\Service\GeneralDeviceService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -16,11 +17,17 @@ class ActuatorHandler implements RequestHandlerInterface
     protected $templateRenderer;
 
     /**
+     * @var GeneralDeviceService
+     */
+    protected $generalDeviceService;
+
+    /**
      * ActuatorHandler constructor.
      */
-    public function __construct(TemplateRendererInterface $templateRenderer)
+    public function __construct(TemplateRendererInterface $templateRenderer, GeneralDeviceService $generalDeviceService)
     {
         $this->templateRenderer = $templateRenderer;
+        $this->generalDeviceService = $generalDeviceService;
     }
 
     /**
@@ -28,6 +35,15 @@ class ActuatorHandler implements RequestHandlerInterface
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        return new HtmlResponse($this->templateRenderer->render("device::actuator"));
+        $deviceIdentifier = $request->getAttribute('device');
+        $device = $this->generalDeviceService->getDevice($deviceIdentifier);
+        $deviceService = $this->generalDeviceService->getDeviceService($device);
+
+        $actuator = $request->getAttribute('actuator');
+
+        return new HtmlResponse($this->templateRenderer->render("device::actuator", [
+            'device' => $device,
+            'showActuator' => $deviceService->showActuator($device, $actuator),
+        ]));
     }
 }
