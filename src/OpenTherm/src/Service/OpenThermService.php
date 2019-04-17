@@ -82,9 +82,23 @@ class OpenThermService implements DeviceServiceInterface
     }
 
     /**
-     * @param DeviceInterface $device
+     * {@inheritDoc}
      */
-    public function updateSensors(DeviceInterface $device)
+    public function setActuator(DeviceInterface $device, string $actuator, array $data): void
+    {
+        switch ($actuator) {
+            case 'room_setpoint':
+                // TODO: send message to the queue
+                // TODO: add sensor observation for 'room_setpoint'
+            default:
+                throw new \InvalidArgumentException("This device does not have the actuator '$actuator'.'");
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function updateSensors(DeviceInterface $device) : void
     {
         $this->queueManager->push(new Message(
             OpenThermUpdateProcessor::class,

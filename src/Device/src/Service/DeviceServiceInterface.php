@@ -18,7 +18,12 @@ interface DeviceServiceInterface
     public function showActuator(DeviceInterface $device, string $actuator) : string;
 
     /**
+     * Set an actuator.
+     */
+    public function setActuator(DeviceInterface $device, string $actuator, array $data) : void;
+
+    /**
      * Update the sensors of a device.
      */
-    public function updateSensors(DeviceInterface $device);
+    public function updateSensors(DeviceInterface $device) : void;
 }

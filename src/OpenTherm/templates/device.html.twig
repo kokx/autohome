@@ -3,7 +3,7 @@
 </p>
 <p>
     The current setting is: <strong>{{ sensorData['room_setpoint'].state }}&nbsp;&deg;C</strong>.<br>
-    <a href="{{ path("devices.actuator", { identifier: device.identifier, actuator: 'room_setpoint' }) }}">
+    <a href="{{ path("devices.actuator", { device: device.identifier, actuator: 'room_setpoint' }) }}">
         Change this
     </a>
 </p>

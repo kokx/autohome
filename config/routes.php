@@ -39,4 +39,5 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
     $app->get('/devices/{name:[a-zA-Z0-9._-]+}', \Device\Handler\DeviceHandler::class, 'devices.show');
     $app->get('/devices/{name:[a-zA-Z0-9._-]+}/sensors', \Device\Handler\SensorsHandler::class, 'devices.sensors');
     $app->get('/devices/{device:[a-zA-Z0-9._-]+}/actuator/{actuator:[a-zA-Z0-9._-]+}', \Device\Handler\ActuatorHandler::class, 'devices.actuator');
+    $app->post('/devices/{device:[a-zA-Z0-9._-]+}/actuator/{actuator:[a-zA-Z0-9._-]+}', \Device\Handler\SetActuatorHandler::class, 'devices.actuator.post');
 };
