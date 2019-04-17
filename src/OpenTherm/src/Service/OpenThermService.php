@@ -96,7 +96,7 @@ class OpenThermService implements DeviceServiceInterface
                 $this->queueManager->push(new Message(
                     ChangeSetpointProcessor::class,
                     [
-                        'device' => $device,
+                        'device' => $device->getIdentifier(),
                         'actuator' => $actuator,
                         'setpoint' => $data['state']
                     ]
