@@ -6,12 +6,29 @@ namespace Computer\Service;
 
 use Device\Service\DeviceServiceInterface;
 use Device\Device\DeviceInterface;
+use Queue\QueueManager;
+use Queue\Message\Message;
+use Computer\Processsor\UpdateStatusProcessor;
 
 /**
  * Service for the computer device.
  */
 class ComputerService implements DeviceServiceInterface
 {
+
+    /**
+     * @var QueueManager
+     */
+    protected $queueManager;
+
+
+    /**
+     * ComputerService Constructor.
+     */
+    public function __construct(QueueManager $queueManager)
+    {
+        $this->queueManager = $queueManager;
+    }
 
     /**
      * {@inheritDoc}
@@ -42,6 +59,11 @@ class ComputerService implements DeviceServiceInterface
      */
     public function updateSensors(DeviceInterface $device) : void
     {
-        // TODO: implement this
+        $this->queueManager->push(new Message(
+            UpdateStatusProcessor::class,
+            [
+                'device' => $device->getIdentifier()
+            ]
+        ));
     }
 }
