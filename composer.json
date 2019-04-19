@@ -29,6 +29,7 @@
         "ext-json": "*",
         "dasprid/container-interop-doctrine": "^1.1",
         "elie29/zend-phpdi-config": "^3.0",
+        "symfony/process": "^4.2",
         "zendframework/zend-component-installer": "^2.1.1",
         "zendframework/zend-config-aggregator": "^1.0",
         "zendframework/zend-diactoros": "^1.7.1 || ^2.0",
