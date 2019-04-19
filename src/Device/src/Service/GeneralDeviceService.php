@@ -89,7 +89,9 @@ class GeneralDeviceService
     public function logSensorData(DeviceInterface $device, array $data) : void
     {
         if (!isset($this->config[$device->getIdentifier()])) {
-            throw new \InvalidArgumentException("Cannot log data for non-existing device '{$device->getIdentifier()}''.");
+            throw new \InvalidArgumentException(
+                "Cannot log data for non-existing device '{$device->getIdentifier()}''."
+            );
         }
 
         $log = [];

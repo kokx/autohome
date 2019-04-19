@@ -81,5 +81,4 @@ class Computer implements DeviceInterface
     {
         return $this->port;
     }
-
 }

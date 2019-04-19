@@ -72,7 +72,17 @@ class ComputerService implements DeviceServiceInterface
      */
     public function showActuator(DeviceInterface $device, string $actuator) : string
     {
-        return "TODO";
+        switch ($actuator) {
+            case 'online':
+                $sensor = $this->generalDeviceService->getSensorState($device, 'online');
+                return $this->templateRenderer->render('computer::online', [
+                    'device' => $device,
+                    'actuator' => $actuator,
+                    'sensor' => $sensor
+                ]);
+            default:
+                throw new \InvalidArgumentException("This device does not have the actuator '$actuator'.'");
+        }
     }
 
     /**

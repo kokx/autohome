@@ -1,0 +1,14 @@
+<div class="card col-4">
+    <div class="card-body">
+        <h3>{{ device.name }}</h3>
+        <form method="post" action="{{ path('devices.actuator', { device: device.identifier, actuator: actuator }) }}">
+            {% if sensor.state == '1' %}
+                <input type="hidden" name="state" value="0">
+                <button type="submit" class="btn btn-primary">Turn off</button>
+            {% else %}
+                <input type="hidden" name="state" value="1">
+                <button type="submit" class="btn btn-primary">Turn on</button>
+            {% endif %}
+        </form>
+    </div>
+</div>
