@@ -26,6 +26,12 @@ class Computer implements DeviceInterface
     protected $host;
 
     /**
+     * @var int
+     */
+    protected $port = 22;
+
+
+    /**
      * Computer constructor.
      */
     public function __construct(string $identifier, array $options)
@@ -36,6 +42,10 @@ class Computer implements DeviceInterface
 
         $this->identifier = $identifier;
         $this->host = $options['host'];
+
+        if (isset($options['port'])) {
+            $this->port = (int) $options['port'];
+        }
     }
 
     /**
@@ -65,6 +75,11 @@ class Computer implements DeviceInterface
     public function getHost() : string
     {
         return $this->host;
+    }
+
+    public function getPort() : int
+    {
+        return $this->port;
     }
 
 }

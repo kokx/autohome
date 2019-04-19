@@ -2,7 +2,7 @@
 
 namespace OpenTherm\Processor;
 
-use Device\Device\OpenThermGateway;
+use OpenTherm\Device\OpenThermGateway;
 use Device\Service\GeneralDeviceService;
 use Queue\Message\Message;
 use Queue\Processor\ProcessorInterface;
@@ -123,7 +123,7 @@ class OpenThermUpdateProcessor implements ProcessorInterface
             'dhw_burner_operation_hours'    => $data[24],
         ];
 
-        $this->deviceService->logSensorData($payload['device'], $data);
+        $this->deviceService->logSensorData($device, $data);
 
         fclose($socket);
     }

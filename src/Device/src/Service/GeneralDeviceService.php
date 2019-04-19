@@ -83,13 +83,13 @@ class GeneralDeviceService
     /**
      * Log data from several sensors
      *
-     * @param string $deviceName
+     * @param DeviceInterface $device
      * @param array $data
      */
-    public function logSensorData(string $deviceName, array $data) : void
+    public function logSensorData(DeviceInterface $device, array $data) : void
     {
-        if (!isset($this->config[$deviceName])) {
-            throw new \InvalidArgumentException("Cannot log data for non-existing device '$deviceName''.");
+        if (!isset($this->config[$device->getIdentifier()])) {
+            throw new \InvalidArgumentException("Cannot log data for non-existing device '{$device->getIdentifier()}''.");
         }
 
         $log = [];
@@ -97,7 +97,7 @@ class GeneralDeviceService
         foreach ($data as $sensorName => $state) {
             $logItem = new SensorLog();
 
-            $logItem->setDevice($deviceName);
+            $logItem->setDevice($device->getIdentifier());
             $logItem->setSensor($sensorName);
             $logItem->setState($state);
 
