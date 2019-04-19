@@ -103,7 +103,7 @@ class OpenThermService implements DeviceServiceInterface
                 ));
 
                 // add sensor observation for 'room_setpoint'
-                $this->generalDeviceService->logSensorData($device->getIdentifier(), [
+                $this->generalDeviceService->logSensorData($device, [
                     'room_setpoint' => $data['state']
                 ]);
                 break;

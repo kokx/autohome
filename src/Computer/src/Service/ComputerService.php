@@ -11,6 +11,8 @@ use Queue\Message\Message;
 use Computer\Processor\UpdateStatusProcessor;
 use Zend\Expressive\Template\TemplateRendererInterface;
 use Device\Service\GeneralDeviceService;
+use Computer\Processor\TurnOnProcessor;
+use Computer\Processor\TurnOffProcessor;
 
 /**
  * Service for the computer device.
@@ -90,7 +92,30 @@ class ComputerService implements DeviceServiceInterface
      */
     public function setActuator(DeviceInterface $device, string $actuator, array $data) : void
     {
-        // TODO: implement this
+        switch ($actuator) {
+            case 'online':
+                if (!isset($data['state']) || !in_array($data['state'], ['0', '1'])) {
+                    throw new \InvalidArgumentException('Invalid online status given');
+                }
+
+                if ($data['state'] == '1') {
+                    $this->queueManager->push(new Message(TurnOnProcessor::class, [
+                        'device' => $device->getIdentifier()
+                    ]));
+                } else {
+                    $this->queueManager->push(new Message(TurnOffProcessor::class, [
+                        'device' => $device->getIdentifier()
+                    ]));
+                }
+
+                // add sensor observation for 'online'
+                $this->generalDeviceService->logSensorData($device, [
+                    'online' => $data['state']
+                ]);
+                break;
+            default:
+                throw new \InvalidArgumentException("This device does not have the actuator '$actuator'.'");
+        }
     }
 
     /**

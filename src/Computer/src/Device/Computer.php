@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Computer\Device;
@@ -26,6 +25,11 @@ class Computer implements DeviceInterface
     protected $host;
 
     /**
+     * @var string
+     */
+    protected $mac;
+
+    /**
      * @var int
      */
     protected $port = 22;
@@ -39,9 +43,13 @@ class Computer implements DeviceInterface
         if (!isset($options['host'])) {
             throw new \InvalidArgumentException("No host given.");
         }
+        if (!isset($options['mac'])) {
+            throw new \InvalidArgumentException("No mac given.");
+        }
 
         $this->identifier = $identifier;
         $this->host = $options['host'];
+        $this->mac = $options['mac'];
 
         if (isset($options['port'])) {
             $this->port = (int) $options['port'];
@@ -75,6 +83,11 @@ class Computer implements DeviceInterface
     public function getHost() : string
     {
         return $this->host;
+    }
+
+    public function getMac() : string
+    {
+        return $this->mac;
     }
 
     public function getPort() : int

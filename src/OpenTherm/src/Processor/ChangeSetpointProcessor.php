@@ -16,9 +16,6 @@ class ChangeSetpointProcessor implements ProcessorInterface
      */
     protected $generalDeviceService;
 
-    /**
-     * {@inheritDoc}
-     */
     public function __construct(GeneralDeviceService $generalDeviceService)
     {
         $this->generalDeviceService = $generalDeviceService;
