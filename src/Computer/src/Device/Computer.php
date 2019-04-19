@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Computer\Device;
 
 use Device\Device\DeviceInterface;
+use Computer\Service\ComputerService;
 
 /**
  * Device which is a computer. Intended so we can turn it on and off easily.
@@ -58,8 +59,7 @@ class Computer implements DeviceInterface
      */
     public function getDeviceServiceName() : string
     {
-        // TODO return device service
-        return "TODO";
+        return ComputerService::class;
     }
 
     public function getHost() : string
