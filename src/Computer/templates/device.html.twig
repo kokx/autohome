@@ -1,0 +1,12 @@
+<p>
+  {% if sensorData['online'].state == '1' %}
+    {{ device.name }} is online
+  {% else %}
+    {{ device.name }} is offline
+  {% endif %}
+</p>
+<p>
+  <a href="{{ path('devices.actuator', { device: device.identifier, actuator: 'online' }) }}">
+    Change this
+  </a>
+</p>

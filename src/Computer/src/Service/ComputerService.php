@@ -9,6 +9,8 @@ use Device\Device\DeviceInterface;
 use Queue\QueueManager;
 use Queue\Message\Message;
 use Computer\Processor\UpdateStatusProcessor;
+use Zend\Expressive\Template\TemplateRendererInterface;
+use Device\Service\GeneralDeviceService;
 
 /**
  * Service for the computer device.
@@ -21,13 +23,28 @@ class ComputerService implements DeviceServiceInterface
      */
     protected $queueManager;
 
+    /**
+     * @var GeneralDeviceService
+     */
+    protected $generalDeviceService;
+
+    /**
+     * @var TemplateRendererInterface
+     */
+    protected $templateRenderer;
+
 
     /**
      * ComputerService Constructor.
      */
-    public function __construct(QueueManager $queueManager)
-    {
+    public function __construct(
+        QueueManager $queueManager,
+        GeneralDeviceService $generalDeviceService,
+        TemplateRendererInterface $templateRenderer
+    ) {
         $this->queueManager = $queueManager;
+        $this->generalDeviceService = $generalDeviceService;
+        $this->templateRenderer = $templateRenderer;
     }
 
     /**
@@ -35,7 +52,19 @@ class ComputerService implements DeviceServiceInterface
      */
     public function getSummary(DeviceInterface $device) : string
     {
-        return "TODO";
+        $sensorData = $this->generalDeviceService->getLastSensorData($device);
+
+        // map sensors to names
+        $newSensorData = [];
+        foreach ($sensorData as $sensor) {
+            $newSensorData[$sensor->getSensor()] = $sensor;
+        }
+        $sensorData = $newSensorData;
+
+        return $this->templateRenderer->render("computer::device", [
+            'device' => $device,
+            'sensorData' => $sensorData
+        ]);
     }
 
     /**
