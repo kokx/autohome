@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Computer\Processsor;
+namespace Computer\Processor;
 
 use Queue\Processor\ProcessorInterface;
 use Queue\Message\Message;
@@ -45,11 +45,11 @@ class UpdateStatusProcessor implements ProcessorInterface
         // we suppress errors here, only because if there is an error, we simply want to
         // report that the host is down, we don't care about the actual error
         $sock = @fsockopen($device->getHost(), $device->getPort());
-        $online = false;
+        $online = '0';
 
         if ($sock) {
             fclose($sock);
-            $online = true;
+            $online = '1';
         }
 
         $this->generalDeviceService->logSensorData($device, ['online' => $online]);

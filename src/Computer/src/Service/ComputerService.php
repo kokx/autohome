@@ -8,7 +8,7 @@ use Device\Service\DeviceServiceInterface;
 use Device\Device\DeviceInterface;
 use Queue\QueueManager;
 use Queue\Message\Message;
-use Computer\Processsor\UpdateStatusProcessor;
+use Computer\Processor\UpdateStatusProcessor;
 
 /**
  * Service for the computer device.

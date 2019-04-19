@@ -61,7 +61,7 @@ class Computer implements DeviceInterface
      */
     public function getName() : string
     {
-        return 'Computer ' . $this->getIdentfier();
+        return 'Computer ' . $this->getIdentifier();
     }
 
     /**
