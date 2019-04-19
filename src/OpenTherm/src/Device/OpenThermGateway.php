@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OpenTherm\Device;
 
 use Device\Device\DeviceInterface;
@@ -16,7 +18,7 @@ class OpenThermGateway implements DeviceInterface
     /**
      * @var string
      */
-    protected $name;
+    protected $identifier;
 
     /**
      * @var string
@@ -30,10 +32,8 @@ class OpenThermGateway implements DeviceInterface
 
     /**
      * OpenThermGateway constructor.
-     * @param string $name
-     * @param array $options
      */
-    public function __construct(string $name, array $options)
+    public function __construct(string $identifier, array $options)
     {
         if (!isset($options['host'])) {
             throw new \InvalidArgumentException("No host given.");
@@ -42,7 +42,7 @@ class OpenThermGateway implements DeviceInterface
             throw new \InvalidArgumentException("No port given.");
         }
 
-        $this->name = $name;
+        $this->identifier = $identifier;
         $this->host = $options['host'];
         $this->port = $options['port'];
     }
@@ -52,7 +52,7 @@ class OpenThermGateway implements DeviceInterface
      */
     public function getIdentifier(): string
     {
-        return $this->name;
+        return $this->identifier;
     }
 
     /**
@@ -60,7 +60,7 @@ class OpenThermGateway implements DeviceInterface
      */
     public function getName(): string
     {
-        return 'OpenTherm Gateway';
+        return 'OpenTherm Gateway ' . $this->getIdentifier();
     }
 
     /**

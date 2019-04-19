@@ -52,7 +52,8 @@
             "App\\": "src/App/src/",
             "Queue\\": "src/Queue/src/",
             "Device\\": "src/Device/src/",
-            "OpenTherm\\": "src/OpenTherm/src/"
+            "OpenTherm\\": "src/OpenTherm/src/",
+            "Computer\\": "src/Computer/src/"
         }
     },
     "autoload-dev": {

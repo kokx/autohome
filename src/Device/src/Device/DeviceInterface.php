@@ -7,10 +7,10 @@ interface DeviceInterface
 
     /**
      * Create a new device
-     * @param string $name
+     * @param string $identifier
      * @param array $options
      */
-    public function __construct(string $name, array $options);
+    public function __construct(string $identifier, array $options);
 
     /**
      * Get the device identifier.

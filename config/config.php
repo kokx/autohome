@@ -13,6 +13,7 @@ $cacheConfig = [
 ];
 
 $aggregator = new ConfigAggregator([
+    \Computer\ConfigProvider::class,
     \OpenTherm\ConfigProvider::class,
     \Device\ConfigProvider::class,
     \Queue\ConfigProvider::class,
