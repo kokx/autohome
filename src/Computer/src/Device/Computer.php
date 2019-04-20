@@ -30,6 +30,11 @@ class Computer implements DeviceInterface
     protected $mac;
 
     /**
+     * @var string
+     */
+    protected $user;
+
+    /**
      * @var int
      */
     protected $port = 22;
@@ -46,10 +51,14 @@ class Computer implements DeviceInterface
         if (!isset($options['mac'])) {
             throw new \InvalidArgumentException("No mac given.");
         }
+        if (!isset($options['user'])) {
+            throw new \InvalidArgumentException("No user given.");
+        }
 
         $this->identifier = $identifier;
         $this->host = $options['host'];
         $this->mac = $options['mac'];
+        $this->user = $options['user'];
 
         if (isset($options['port'])) {
             $this->port = (int) $options['port'];
@@ -88,6 +97,11 @@ class Computer implements DeviceInterface
     public function getMac() : string
     {
         return $this->mac;
+    }
+
+    public function getUser() : string
+    {
+        return $this->user;
     }
 
     public function getPort() : int

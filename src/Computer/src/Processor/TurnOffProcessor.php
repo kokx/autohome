@@ -6,6 +6,7 @@ namespace Computer\Processor;
 use Queue\Processor\ProcessorInterface;
 use Device\Service\GeneralDeviceService;
 use Queue\Message\Message;
+use Symfony\Component\Process\Process;
 
 /**
  * Turn the computer off.
@@ -37,7 +38,11 @@ class TurnOffProcessor implements ProcessorInterface
         /** @var \Computer\Device\Computer $device */
         $device = $this->generalDeviceService->getDevice($payload['device']);
 
-        // TODO: ssh `sudo systemctl poweroff` to device
-        echo "TODO: ssh 'sudo systemctl poweroff' to "  . $device->getMac() . "\n";
+        $hostline = $device->getUser() . '@' . $device->getHost();
+
+        $process = new Process(['ssh', $hostline, 'sudo systemctl poweroff']);
+        $process->run();
+
+        // we don't check if the process ran correctly, we don't really need that
     }
 }

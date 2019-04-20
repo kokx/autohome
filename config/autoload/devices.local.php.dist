@@ -8,6 +8,14 @@ return [
                 'host' => '',
                 'port' => 6638
             ]
-        ]
+        ],
+        'server' => [
+            'type' => \Computer\Device\Computer::class,
+            'options' => [
+                'host' => 'server.lan',
+                'mac' => 'de:ad:be:ef:de:ad',
+                'user' => 'control',
+            ]
+        ],
     ]
 ];

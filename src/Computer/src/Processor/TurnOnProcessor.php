@@ -6,6 +6,7 @@ namespace Computer\Processor;
 use Queue\Processor\ProcessorInterface;
 use Queue\Message\Message;
 use Device\Service\GeneralDeviceService;
+use Symfony\Component\Process\Process;
 
 /**
  * Turn the computer on.
@@ -37,7 +38,9 @@ class TurnOnProcessor implements ProcessorInterface
         /** @var \Computer\Device\Computer $device */
         $device = $this->generalDeviceService->getDevice($payload['device']);
 
-        // TODO: send wake-on-lan packet
-        echo 'TODO: send wake-on-lan packet to ' . $device->getMac() . "\n";
+        $process = new Process(['wol', $device->getMac()]);
+        $process->run();
+
+        // we don't check if the process ran correctly
     }
 }
