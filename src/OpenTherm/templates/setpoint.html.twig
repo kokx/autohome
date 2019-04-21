@@ -1,19 +1,10 @@
-<div class="card col-3">
+<div class="card col-4">
     <div class="card-body">
         <form method="post" action="{{ path('devices.actuator', { device: device.identifier, actuator: actuator }) }}">
-            <div class="form-group">
-                <label for="actuator_state">Room setpoint</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <button class="btn btn-outline-secondary">-</button>
-                    </div>
-                    <input id="actuator_state" class="form-control" name="state" type="number" value="{{ sensor.state }}" step="0.5">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary">+</button>
-                    </div>
-                </div>
-            </div>
+            <div class="form-group" data-state="{{ sensor.state }}" id="tempcontrol"></div>
             <button type="submit" class="btn btn-primary">Change setpoint</button>
         </form>
     </div>
 </div>
+
+<script src="/js/tempcontrol.bundle.js"></script>
