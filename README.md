@@ -10,6 +10,25 @@ co-habitants. Thus, providing a very simple web interface to manipulate the home
 automation system itself, but not a point-and-click interface for configuring
 devices.
 
+
+# Run it for development
+
+Copy `config/autoload/devices.local.php.dist` to
+`config/autoload/devices.local.php` and adjust it to your own setup.
+
+Run `npm install --dev` and `composer install` to install all dependencies
+
+Run `composer run --timeout=0` and `npm start` to start a server on http://localhost:8090
+
+# Device support
+
+Currently, autohome has support for an OpenTherm gateway
+(http://otgw.tclcode.com) connected to a device running a Ser2Net (Serial to
+TCP) server. Recommended is to use a NodeMCU with ESPEasy firmware.
+
+Autohome also supports computers running Linux, which can be turned on using
+Wake-On-Lan and turned off by sending `sudo systemctl poweroff` over SSH.
+
 # Architecture
 This project is divided into two running parts, the webinterface and the
 background service. The webinterface sends messages (via a message queue) to the
