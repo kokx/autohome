@@ -18,7 +18,7 @@ Copy `config/autoload/devices.local.php.dist` to
 
 Run `npm install --dev` and `composer install` to install all dependencies
 
-Run `composer run --timeout=0` and `npm start` to start a server on http://localhost:8090
+Run `composer run --timeout=0` and `npm start` to start a server on http://localhost:8000
 
 # Device support
 

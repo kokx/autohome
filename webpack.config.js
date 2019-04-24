@@ -9,7 +9,7 @@ module.exports = {
     },
     devServer: {
         contentBase: './js',
-        port: 8090,
+        port: 8000,
         // proxy requests to PHP dev backend
         proxy: {
             '/': 'http://localhost:8080'
