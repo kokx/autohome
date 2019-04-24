@@ -6,6 +6,7 @@ use Psr\Container\ContainerInterface;
 use Zend\Expressive\Application;
 use Zend\Expressive\MiddlewareFactory;
 use Device\Handler\SensorDataHandler;
+use Device\Handler\SensorHandler;
 
 /**
  * Setup routes with a single request method:
@@ -41,6 +42,7 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
     $app->get('/devices/{device:[a-zA-Z0-9._-]+}/sensors', \Device\Handler\SensorsHandler::class, 'devices.sensors');
     $app->get('/devices/{device:[a-zA-Z0-9._-]+}/actuator/{actuator:[a-zA-Z0-9._-]+}', \Device\Handler\ActuatorHandler::class, 'devices.actuator');
     $app->post('/devices/{device:[a-zA-Z0-9._-]+}/actuator/{actuator:[a-zA-Z0-9._-]+}', \Device\Handler\SetActuatorHandler::class, 'devices.actuator.post');
+    $app->get('/devices/{device:[a-zA-Z0-9._-]+}/sensors/{sensor:[a-zA-Z0-9._-]+}', SensorHandler::class, 'devices.sensor');
 
     $app->get('/api/devices/{device:[a-zA-Z0-9._-]+}/sensors/{sensor:[a-zA-Z0-9._-]+}/log', SensorDataHandler::class, 'api.devices.sensorlog');
 };

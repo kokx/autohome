@@ -11,6 +11,7 @@
                     <th>Sensor name</th>
                     <th>Value</th>
                     <th>Last update</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -19,6 +20,14 @@
                         <td>{{ sensor.sensor }}</td>
                         <td>{{ sensor.state }}</td>
                         <td>{{ sensor.createdAt|date('Y-m-d H:i:s') }}</td>
+                        <td>
+                            <a href="{{ path('devices.sensor', {
+                                         device: device.identifier,
+                                         sensor: sensor.sensor
+                                     }) }}" class="btn btn-primary">
+                                Log
+                            </a>
+                        </td>
                     </tr>
                 {% endfor %}
                 </tbody>

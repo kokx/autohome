@@ -1,0 +1,10 @@
+{% extends '@layout/default.html.twig' %}
+
+{% block title %}{{ sensor }} - {{ device.identifier }}{% endblock %}
+
+{% block content %}
+
+{{ dump(sensor) }}
+{{ dump(device) }}
+
+{% endblock %}
