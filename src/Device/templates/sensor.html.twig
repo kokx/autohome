@@ -7,4 +7,10 @@
 {{ dump(sensor) }}
 {{ dump(device) }}
 
+<div id="sensor-chart" data-sensor="{{ sensor }}" data-device="{{ device.identifier }}"></div>
+
+{% endblock %}
+
+{% block javascript %}
+<script src="/js/sensorchart.bundle.js"></script>
 {% endblock %}
