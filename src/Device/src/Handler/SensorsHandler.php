@@ -36,7 +36,7 @@ class SensorsHandler implements RequestHandlerInterface
      */
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
-        $deviceName = $request->getAttribute('name');
+        $deviceName = $request->getAttribute('device');
         $device = $this->generalDeviceService->getDevice($deviceName);
         $sensorData = $this->generalDeviceService->getLastSensorData($device);
 

@@ -9,5 +9,5 @@
         </div>
     </div>
 
-    <a href="{{ path('devices.sensors', { 'name': device.identifier }) }}">View all sensor data</a>
+    <a href="{{ path('devices.sensors', { device: device.identifier }) }}">View all sensor data</a>
 {% endblock %}

@@ -128,4 +128,14 @@ class GeneralDeviceService
     {
         return $this->sensorLogMapper->findSensorState($device->getIdentifier(), $sensor);
     }
+
+    /**
+     * Get the log of a sensor.
+     *
+     * @return SensorLog[]
+     */
+    public function getSensorLog(DeviceInterface $device, string $sensor) : array
+    {
+        return $this->sensorLogMapper->findSensorLog($device->getIdentifier(), $sensor);
+    }
 }

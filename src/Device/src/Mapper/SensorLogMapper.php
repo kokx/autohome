@@ -78,4 +78,27 @@ class SensorLogMapper
 
         return $query->getSingleResult();
     }
+
+    /**
+     * Find all data for a sensor.
+     * @param string $device
+     * @param string $sensor
+     * @return SensorLog[]
+     */
+    public function findSensorLog(string $device, string $sensor) : array
+    {
+        $dql = "SELECT s FROM Device\Entity\SensorLog s
+            WHERE s.device = :device
+                AND s.sensor = :sensor
+            ORDER BY s.createdAt ASC";
+
+        $query = $this->em->createQuery($dql);
+
+        $query->execute([
+            'device' => $device,
+            'sensor' => $sensor
+        ]);
+
+        return $query->getResult();
+    }
 }
