@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import { LineChart, Line } from 'recharts';
+import { LineChart, Line, CartesianGrid, XAxis, YAxis } from 'recharts';
 
 const Chart = props => {
     const [data, setData] = useState([]);
@@ -22,10 +22,12 @@ const Chart = props => {
     });
 
     if (hasData) {
-        console.log(data);
         return (
             <LineChart width={1000} height={400} data={data.log}>
                 <Line type="monotone" dataKey="state" stroke="#8884d8" />
+                <CartesianGrid stroke="#ccc" />
+                <XAxis dataKey="createdAt" interval="preserveStartEnd" />
+                <YAxis />
             </LineChart>
         );
     }

@@ -90,13 +90,15 @@ class SensorLogMapper
         $dql = "SELECT s FROM Device\Entity\SensorLog s
             WHERE s.device = :device
                 AND s.sensor = :sensor
+                AND s.createdAt > :date
             ORDER BY s.createdAt ASC";
 
         $query = $this->em->createQuery($dql);
 
         $query->execute([
             'device' => $device,
-            'sensor' => $sensor
+            'sensor' => $sensor,
+            'date' => new \DateTime('-24 hour')
         ]);
 
         return $query->getResult();
