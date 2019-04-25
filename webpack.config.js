@@ -1,10 +1,7 @@
 module.exports = {
     entry: {
         tempcontrol: './src/OpenTherm/js/tempcontrol.js',
-        sensorchart: [
-            '@babel/polyfill',
-            './src/Device/js/sensorCharts.js'
-        ]
+        sensorchart: './src/Device/js/sensorCharts.js'
     },
     output: {
         path: __dirname + 'public/js',
