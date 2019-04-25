@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import { LineChart, Line, CartesianGrid, XAxis, YAxis } from 'recharts';
+import { Scatter } from 'react-chartjs-2';
 
 const Chart = props => {
     const [data, setData] = useState([]);
@@ -22,13 +22,25 @@ const Chart = props => {
     });
 
     if (hasData) {
+        const d = new Date();
+        d.setDate(d.getDate() - 1);
+        console.log(d);
+
+        const plotData = {
+            datasets: [
+                {
+                    label: 'OpenTherm Gateway',
+                    data: data.log.map(item => ({
+                        x: Math.floor((new Date(item.created_at) - d) / 1000),
+                        y: item.state
+                    }))
+                }
+            ],
+        };
+        console.log(plotData);
+
         return (
-            <LineChart width={1000} height={400} data={data.log}>
-                <Line type="monotone" dataKey="state" stroke="#8884d8" />
-                <CartesianGrid stroke="#ccc" />
-                <XAxis dataKey="createdAt" interval="preserveStartEnd" />
-                <YAxis />
-            </LineChart>
+            <Scatter data={plotData} height={50} options={{ showLines: true }}/>
         );
     }
     return <div>{props.device} - {props.sensor}</div>;

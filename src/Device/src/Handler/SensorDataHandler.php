@@ -37,7 +37,7 @@ class SensorDataHandler implements RequestHandlerInterface
         $log = array_map(function (SensorLog $item) {
             return [
                 'state' => $item->getState(),
-                'created_at' => $item->getCreatedAt(),
+                'created_at' => $item->getCreatedAt()->format('c'),
             ];
         }, $log);
 
