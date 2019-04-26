@@ -80,12 +80,12 @@ class SensorLogMapper
     }
 
     /**
-     * Find all data for a sensor.
+     * Find todays data for a sensor.
      * @param string $device
      * @param string $sensor
      * @return SensorLog[]
      */
-    public function findSensorLog(string $device, string $sensor) : array
+    public function findDaySensorLog(string $device, string $sensor) : array
     {
         $dql = "SELECT s FROM Device\Entity\SensorLog s
             WHERE s.device = :device
@@ -102,5 +102,33 @@ class SensorLogMapper
         ]);
 
         return $query->getResult();
+    }
+
+    /**
+     * Find monthly stats for a sensor.
+     *
+     * @param string $device
+     * @param string $sensor
+     * @return array
+     */
+    public function findMonthSensorStats(string $device, string $sensor) : array
+    {
+        $sql = "SELECT date(created_at) as created_date,
+                       min(state) as minimum,
+                       max(state) as maximum,
+                       avg(state) as average
+                    FROM SensorLog
+                    WHERE device = :device
+                      AND sensor = :sensor
+                    GROUP BY date(created_at)";
+
+        $stmt = $this->em->getConnection()->prepare($sql);
+
+        $stmt->execute([
+            'device' => $device,
+            'sensor' => $sensor
+        ]);
+
+        return $stmt->fetchAll();
     }
 }

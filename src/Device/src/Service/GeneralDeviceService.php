@@ -130,12 +130,22 @@ class GeneralDeviceService
     }
 
     /**
-     * Get the log of a sensor.
+     * Get the day log of a sensor.
      *
      * @return SensorLog[]
      */
-    public function getSensorLog(DeviceInterface $device, string $sensor) : array
+    public function getDaySensorLog(DeviceInterface $device, string $sensor) : array
     {
-        return $this->sensorLogMapper->findSensorLog($device->getIdentifier(), $sensor);
+        return $this->sensorLogMapper->findDaySensorLog($device->getIdentifier(), $sensor);
+    }
+
+    /**
+     * Get the log of a sensor.
+     *
+     * @return array
+     */
+    public function getMonthSensorStats(DeviceInterface $device, string $sensor) : array
+    {
+        return $this->sensorLogMapper->findMonthSensorStats($device->getIdentifier(), $sensor);
     }
 }

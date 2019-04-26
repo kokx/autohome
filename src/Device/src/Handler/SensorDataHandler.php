@@ -33,18 +33,21 @@ class SensorDataHandler implements RequestHandlerInterface
         $sensor = $request->getAttribute('sensor');
 
         switch ($request->getAttribute('timespan')) {
+        case 'month':
+            $log = $this->generalDeviceService->getMonthSensorStats($device, $sensor);
+            break;
         case 'day':
         default:
-            $log = $this->generalDeviceService->getSensorLog($device, $sensor);
+            $log = $this->generalDeviceService->getDaySensorLog($device, $sensor);
+
+            $log = array_map(function (SensorLog $item) {
+                return [
+                    'state' => $item->getState(),
+                    'created_at' => $item->getCreatedAt()->format('c'),
+                ];
+            }, $log);
             break;
         }
-
-        $log = array_map(function (SensorLog $item) {
-            return [
-                'state' => $item->getState(),
-                'created_at' => $item->getCreatedAt()->format('c'),
-            ];
-        }, $log);
 
         return new JsonResponse([
             'device' => [
