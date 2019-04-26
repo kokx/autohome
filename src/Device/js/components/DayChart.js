@@ -9,7 +9,7 @@ const DayChart = props => {
 
     useEffect(() => {
         async function fetchData() {
-            const response = await axios('/api/devices/' + props.device + '/sensors/' + props.sensor + '/log');
+            const response = await axios('/api/devices/' + props.device + '/sensors/' + props.sensor + '/day');
 
             setData(response.data);
             setHasData(true);

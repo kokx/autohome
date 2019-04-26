@@ -44,5 +44,5 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
     $app->post('/devices/{device:[a-zA-Z0-9._-]+}/actuator/{actuator:[a-zA-Z0-9._-]+}', \Device\Handler\SetActuatorHandler::class, 'devices.actuator.post');
     $app->get('/devices/{device:[a-zA-Z0-9._-]+}/sensors/{sensor:[a-zA-Z0-9._-]+}', SensorHandler::class, 'devices.sensor');
 
-    $app->get('/api/devices/{device:[a-zA-Z0-9._-]+}/sensors/{sensor:[a-zA-Z0-9._-]+}/log', SensorDataHandler::class, 'api.devices.sensorlog');
+    $app->get('/api/devices/{device:[a-zA-Z0-9._-]+}/sensors/{sensor:[a-zA-Z0-9._-]+}/{timespan:day|month|year|}', SensorDataHandler::class, 'api.devices.sensorlog');
 };

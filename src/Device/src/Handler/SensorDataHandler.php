@@ -32,7 +32,12 @@ class SensorDataHandler implements RequestHandlerInterface
         $device = $this->generalDeviceService->getDevice($request->getAttribute('device'));
         $sensor = $request->getAttribute('sensor');
 
-        $log = $this->generalDeviceService->getSensorLog($device, $sensor);
+        switch ($request->getAttribute('timespan')) {
+        case 'day':
+        default:
+            $log = $this->generalDeviceService->getSensorLog($device, $sensor);
+            break;
+        }
 
         $log = array_map(function (SensorLog $item) {
             return [
