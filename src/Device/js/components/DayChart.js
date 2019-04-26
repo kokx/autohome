@@ -48,7 +48,9 @@ const DayChart = props => {
                     position: 'bottom',
                     ticks: {
                         callback: (value, index, values) => (new Date(value)).toLocaleString('nl-NL'),
-                        minRotation: '32'
+                        minRotation: 32,
+                        suggestedMin: new Date(),
+                        suggestedMax: 0
                     }
                 }]
             },
