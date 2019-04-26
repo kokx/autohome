@@ -3,9 +3,14 @@
 {% block title %}{{ sensor }} - {{ device.identifier }}{% endblock %}
 
 {% block content %}
+<h3>Day</h3>
+<div id="sensor-day-chart" data-sensor="{{ sensor }}" data-device="{{ device.identifier }}"></div>
 
-<div id="sensor-chart" data-sensor="{{ sensor }}" data-device="{{ device.identifier }}"></div>
+<h3>Month</h3>
+<div id="sensor-month-chart" data-sensor="{{ sensor }}" data-device="{{ device.identifier }}"></div>
 
+<h3>Year</h3>
+<div id="sensor-year-chart" data-sensor="{{ sensor }}" data-device="{{ device.identifier }}"></div>
 {% endblock %}
 
 {% block javascript %}

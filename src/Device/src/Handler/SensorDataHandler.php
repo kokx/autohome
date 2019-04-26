@@ -42,7 +42,10 @@ class SensorDataHandler implements RequestHandlerInterface
         }, $log);
 
         return new JsonResponse([
-            'device' => $device,
+            'device' => [
+                'identifier' => $device->getIdentifier(),
+                'name' => $device->getName()
+            ],
             'sensor' => $sensor,
             'log' => $log
         ]);
