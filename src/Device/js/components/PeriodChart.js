@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Line } from 'react-chartjs-2';
 
-const MonthChart = props => {
+const PeriodChart = props => {
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [hasData, setHasData] = useState(false);
 
     useEffect(() => {
         async function fetchData() {
-            const response = await axios('/api/devices/' + props.device + '/sensors/' + props.sensor + '/month');
+            const response = await axios('/api/devices/' + props.device + '/sensors/' + props.sensor + '/' + props.period);
 
             setData(response.data);
             setHasData(true);
@@ -87,7 +87,7 @@ const MonthChart = props => {
             <Line data={plotData} height={100} options={plotOptions}/>
         );
     }
-    return <div>Loading month chart...</div>;
+    return <div>Loading {props.period} chart...</div>;
 }
 
-export default MonthChart;
+export default PeriodChart;

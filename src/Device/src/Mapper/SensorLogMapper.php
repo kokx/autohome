@@ -109,11 +109,14 @@ class SensorLogMapper
      *
      * @param string $device
      * @param string $sensor
+     * @param string $period
      * @return array
      */
-    public function findMonthSensorStats(string $device, string $sensor) : array
+    public function findPeriodSensorStats(string $device, string $sensor, string $period = 'month') : array
     {
-        // TODO: make sure we only get stats for the last month
+        if (!in_array($period, ['month', 'year'])) {
+            throw new \InvalidArgumentException("Period '$period' is not 'month' or 'year'.");
+        }
         $sql = "SELECT date(created_at) as created_date,
                        min(state) as minimum,
                        max(state) as maximum,
@@ -121,6 +124,7 @@ class SensorLogMapper
                     FROM SensorLog
                     WHERE device = :device
                       AND sensor = :sensor
+                      AND date(created_at) >= date('now', '-1 month')
                     GROUP BY date(created_at)";
 
         $stmt = $this->em->getConnection()->prepare($sql);
