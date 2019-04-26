@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import { Scatter } from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
 
 const Chart = props => {
     const [data, setData] = useState([]);
@@ -24,14 +24,14 @@ const Chart = props => {
     if (hasData) {
         const d = new Date();
         d.setDate(d.getDate() - 1);
-        console.log(d);
 
         const plotData = {
             datasets: [
                 {
                     label: 'OpenTherm Gateway',
                     data: data.log.map(item => ({
-                        x: Math.floor((new Date(item.created_at) - d) / 1000),
+                        label: (new Date(item.created_at)).toLocaleString('nl-NL'),
+                        x: new Date(item.created_at),
                         y: item.state
                     }))
                 }
@@ -39,8 +39,26 @@ const Chart = props => {
         };
         console.log(plotData);
 
+        const plotOptions = {
+            showLines: true,
+            scales: {
+                xAxes: [{
+                    type: 'linear',
+                    position: 'bottom',
+                    ticks: {
+                        callback: (value, index, values) => (new Date(value)).toLocaleString('nl-NL')
+                    }
+                }]
+            },
+            tooltips: {
+                callbacks: {
+                    title: item => (new Date(item[0].xLabel)).toLocaleString('nl-NL')
+                }
+            }
+        };
+
         return (
-            <Scatter data={plotData} height={50} options={{ showLines: true }}/>
+            <Line data={plotData} height={50} options={plotOptions}/>
         );
     }
     return <div>{props.device} - {props.sensor}</div>;
