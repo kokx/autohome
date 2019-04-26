@@ -29,12 +29,12 @@ const DayChart = props => {
                 {
                     label: data.device.name,
                     data: data.log.map(item => ({
-                        label: (new Date(item.created_at)).toLocaleString('nl-NL'),
                         x: new Date(item.created_at),
                         y: item.state
                     })),
                     fill: false,
-                    pointRadius: 0,
+                    pointRadius: 1,
+                    pointHitRadius: 4,
                     borderColor: 'rgba(20, 20, 250, 0.4)',
                     backgroundColor: 'rgba(20, 20, 250, 0.2)',
                 }

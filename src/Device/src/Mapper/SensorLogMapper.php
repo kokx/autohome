@@ -113,6 +113,7 @@ class SensorLogMapper
      */
     public function findMonthSensorStats(string $device, string $sensor) : array
     {
+        // TODO: make sure we only get stats for the last month
         $sql = "SELECT date(created_at) as created_date,
                        min(state) as minimum,
                        max(state) as maximum,
