@@ -33,20 +33,24 @@ const Chart = props => {
                         label: (new Date(item.created_at)).toLocaleString('nl-NL'),
                         x: new Date(item.created_at),
                         y: item.state
-                    }))
+                    })),
+                    fill: false,
+                    pointRadius: 0,
+                    borderColor: 'rgba(20, 20, 250, 0.4)',
+                    backgroundColor: 'rgba(20, 20, 250, 0.2)',
                 }
             ],
         };
         console.log(plotData);
 
         const plotOptions = {
-            showLines: true,
             scales: {
                 xAxes: [{
                     type: 'linear',
                     position: 'bottom',
                     ticks: {
-                        callback: (value, index, values) => (new Date(value)).toLocaleString('nl-NL')
+                        callback: (value, index, values) => (new Date(value)).toLocaleString('nl-NL'),
+                        minRotation: '32'
                     }
                 }]
             },
@@ -58,7 +62,7 @@ const Chart = props => {
         };
 
         return (
-            <Line data={plotData} height={50} options={plotOptions}/>
+            <Line data={plotData} height={100} options={plotOptions}/>
         );
     }
     return <div>{props.device} - {props.sensor}</div>;
