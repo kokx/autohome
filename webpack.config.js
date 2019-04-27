@@ -1,10 +1,11 @@
+const path = require('path');
 module.exports = {
     entry: {
         tempcontrol: './src/OpenTherm/js/tempcontrol.js',
         sensorchart: './src/Device/js/sensorCharts.js'
     },
     output: {
-        path: __dirname + 'public/js',
+        path: path.resolve(__dirname, 'public/js'),
         publicPath: '/js/',
         filename: "[name].bundle.js"
     },
