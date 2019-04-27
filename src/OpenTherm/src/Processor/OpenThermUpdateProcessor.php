@@ -95,6 +95,10 @@ class OpenThermUpdateProcessor implements ProcessorInterface
 
         $data = explode(',', $data[1]);
 
+        if (count($data) < 25) {
+            throw new \RuntimeException("Not enough data in OpenTherm Gateway output.");
+        }
+
         $data = [
             'status'                        => $data[0],
             'control_setpoint'              => $data[1],

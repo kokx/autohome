@@ -43,7 +43,12 @@ class QueueManager
     {
         $processor = $this->processorManager->get($message->getName());
 
-        $processor->process($message);
+        try {
+            $processor->process($message);
+        } catch (\Throwable $e) {
+            echo "Caught " . get_class($e) . " while executing " . get_class($processor) . "\n";
+            echo "Message: " . $e->getMessage() . "\n";
+        }
     }
 
     /**
