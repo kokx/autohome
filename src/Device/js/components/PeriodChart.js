@@ -75,11 +75,6 @@ const PeriodChart = props => {
                         minRotation: '32'
                     }
                 }]
-            },
-            tooltips: {
-                callbacks: {
-                    title: item => (new Date(item[0].label)).toLocaleDateString('nl-NL')
-                }
             }
         };
 
