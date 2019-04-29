@@ -2,7 +2,6 @@
 
 namespace Queue;
 
-use OpenTherm\Processor\OpenThermUpdateProcessor;
 use Queue\Entity\QueueMessage;
 use Queue\Mapper\QueueMapper;
 use Queue\Message\Message;
@@ -46,6 +45,7 @@ class QueueManager
         try {
             $processor->process($message);
         } catch (\Throwable $e) {
+            echo '[' . (new \DateTime())->format('c') . ']';
             echo "Caught " . get_class($e) . " while executing " . get_class($processor) . "\n";
             echo "Message: " . $e->getMessage() . "\n";
         }
@@ -73,7 +73,7 @@ class QueueManager
                 continue;
             }
 
-            // step 2: transform into message (currently, all are transformed to PlainMessage)
+            // step 2: transform into message
             $message = new Message(
                 $queueMessage->getName(),
                 json_decode($queueMessage->getPayload(), JSON_OBJECT_AS_ARRAY)
