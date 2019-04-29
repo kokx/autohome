@@ -61,11 +61,9 @@ const DayChart = props => {
             }
         };
 
-        return (
-            <Line data={plotData} height={100} options={plotOptions}/>
-        );
+        return <Line data={plotData} height={100} options={plotOptions}/>;
     }
-    return <div>Loading day chart...</div>;
+    return <Line data={{}} height={100}/>;
 }
 
 export default DayChart;
