@@ -43,9 +43,15 @@ class QueueManager
         $processor = $this->processorManager->get($message->getName());
 
         try {
+            echo '[' . (new \DateTime())->format('c') . '] ';
+            echo 'Processing message with name ' . $message->getName() . "\n";
+
             $processor->process($message);
+
+            echo '[' . (new \DateTime())->format('c') . '] ';
+            echo 'Finished processing message with name ' . $message->getName() . "\n";
         } catch (\Throwable $e) {
-            echo '[' . (new \DateTime())->format('c') . ']';
+            echo '[' . (new \DateTime())->format('c') . "] Exception or Error\n";
             echo "Caught " . get_class($e) . " while executing " . get_class($processor) . "\n";
             echo "Message: " . $e->getMessage() . "\n";
         }
@@ -66,10 +72,8 @@ class QueueManager
                 // first check if repeating messages need to be added again
                 $this->checkRepeated();
 
-                // no messages to process, sleep for a little bit
-                // we use time_nanosleep, since usleep consumes some cycles while sleeping
-                // (at least, on my machine)
-                time_nanosleep(0, 500000000);
+                // no messages to process, sleep for half a second
+                usleep(500000);
                 continue;
             }
 
@@ -101,6 +105,9 @@ class QueueManager
         $queueMessage->setScheduledAt($sheduledAt);
 
         $this->queueMapper->push($queueMessage);
+
+        echo '[' . (new \DateTime())->format('c') . '] ';
+        echo 'Pushed message with name: ' . $message->getName() . "\n";
     }
 
     /**
@@ -111,6 +118,8 @@ class QueueManager
         foreach ($this->repeaters as $repeater) {
             $message = $repeater->getRepeatMessage();
             if ($message !== null) {
+                echo '[' . (new \DateTime())->format('c') . '] ';
+                echo 'Added repeating message with name: ' . $message->getName() . "\n";
                 $this->push($message);
             }
         }
