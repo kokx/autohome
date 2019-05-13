@@ -6,6 +6,7 @@ use OpenTherm\Device\OpenThermGateway;
 use Device\Service\GeneralDeviceService;
 use Queue\Message\Message;
 use Queue\Processor\ProcessorInterface;
+use Psr\Log\LoggerInterface;
 
 class OpenThermUpdateProcessor implements ProcessorInterface
 {
@@ -16,11 +17,17 @@ class OpenThermUpdateProcessor implements ProcessorInterface
     protected $deviceService;
 
     /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
+    /**
      * OpenThermUpdateProcessor constructor.
      */
-    public function __construct(GeneralDeviceService $deviceService)
+    public function __construct(GeneralDeviceService $deviceService, LoggerInterface $logger)
     {
         $this->deviceService = $deviceService;
+        $this->logger = $logger;
     }
 
     /**
@@ -72,20 +79,24 @@ class OpenThermUpdateProcessor implements ProcessorInterface
         /** @var OpenThermGateway $device */
         $device = $this->deviceService->getDevice($payload['device']);
 
+        $this->logger->debug("Opening socket to device {$device->getIdentifier()}");
         $socket = fsockopen($device->getHost(), $device->getPort());
 
         // CR-LF is required. The gateway won't respond otherwise
+        $this->logger->debug("Writing PS=1");
         fwrite($socket, "PS=1\r\n");
 
         $newlines = 0;
         $data = "";
 
+        $this->logger->debug("Reading output");
         while (!feof($socket) && $newlines < 2) {
             $out = fread($socket, 4096);
             $newlines += substr_count($out, "\n");
             $data .= $out;
         }
 
+        $this->logger->debug("Processing output");
         $data = trim(str_replace("\r\n", "\n", $data));
         $data = explode("\n", $data);
 
@@ -127,8 +138,10 @@ class OpenThermUpdateProcessor implements ProcessorInterface
             'dhw_burner_operation_hours'    => $data[24],
         ];
 
+        $this->logger->debug("Logging output");
         $this->deviceService->logSensorData($device, $data);
 
+        $this->logger->debug("Closing socket to device {$device->getIdentifier()}");
         fclose($socket);
     }
 }
