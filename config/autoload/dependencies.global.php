@@ -24,6 +24,7 @@ return [
         'factories'  => [
             // Fully\Qualified\ClassName::class => Fully\Qualified\FactoryName::class,
             'doctrine.entity_manager.orm_default' => \ContainerInteropDoctrine\EntityManagerFactory::class,
+            \Psr\Log\LoggerInterface::class => \App\Factory\LoggerFactory::class
         ],
     ],
 ];

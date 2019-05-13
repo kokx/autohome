@@ -6,6 +6,7 @@ use Queue\Entity\QueueMessage;
 use Queue\Mapper\QueueMapper;
 use Queue\Message\Message;
 use Queue\Processor\ProcessorManager;
+use Psr\Log\LoggerInterface;
 
 class QueueManager
 {
@@ -21,6 +22,11 @@ class QueueManager
     protected $processorManager;
 
     /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
+    /**
      * @var MessageRepeater[]
      */
     protected $repeaters;
@@ -28,11 +34,13 @@ class QueueManager
     /**
      * @param QueueMapper $mapper
      * @param ProcessorManager $processorManager
+     * @param Logger $logger
      */
-    public function __construct(QueueMapper $mapper, ProcessorManager $processorManager)
+    public function __construct(QueueMapper $mapper, ProcessorManager $processorManager, LoggerInterface $logger)
     {
         $this->queueMapper = $mapper;
         $this->processorManager = $processorManager;
+        $this->logger = $logger;
     }
 
     /**
@@ -43,17 +51,14 @@ class QueueManager
         $processor = $this->processorManager->get($message->getName());
 
         try {
-            echo '[' . (new \DateTime())->format('c') . '] ';
-            echo 'Processing message with name ' . $message->getName() . "\n";
+            $this->logger->info('Processing message with name ' . $message->getName());
 
             $processor->process($message);
 
-            echo '[' . (new \DateTime())->format('c') . '] ';
-            echo 'Finished processing message with name ' . $message->getName() . "\n";
+            $this->logger->info('Finished processing message with name ' . $message->getName());
         } catch (\Throwable $e) {
-            echo '[' . (new \DateTime())->format('c') . "] Exception or Error\n";
-            echo "Caught " . get_class($e) . " while executing " . get_class($processor) . "\n";
-            echo "Message: " . $e->getMessage() . "\n";
+            $this->logger->error("Exception or error --  Caught " . get_class($e)
+                                 . " while executing " . get_class($processor) . ' -- Message: ' . $e->getMessage(), ['exception' => $e]);
         }
     }
 
@@ -106,8 +111,7 @@ class QueueManager
 
         $this->queueMapper->push($queueMessage);
 
-        echo '[' . (new \DateTime())->format('c') . '] ';
-        echo 'Pushed message with name: ' . $message->getName() . "\n";
+        $this->logger->info('Pushed message with name: ' . $message->getName());
     }
 
     /**
@@ -118,8 +122,7 @@ class QueueManager
         foreach ($this->repeaters as $repeater) {
             $message = $repeater->getRepeatMessage();
             if ($message !== null) {
-                echo '[' . (new \DateTime())->format('c') . '] ';
-                echo 'Added repeating message with name: ' . $message->getName() . "\n";
+                $this->logger->info('Added repeating message with name: ' . $message->getName());
                 $this->push($message);
             }
         }
