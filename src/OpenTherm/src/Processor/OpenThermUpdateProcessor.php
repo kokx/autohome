@@ -82,6 +82,10 @@ class OpenThermUpdateProcessor implements ProcessorInterface
         $this->logger->debug("Opening socket to device {$device->getIdentifier()}");
         $socket = fsockopen($device->getHost(), $device->getPort());
 
+        if ($socket === false) {
+            throw new \RuntimeException("Connection to {$device->getIdentifier()} failed.");
+        }
+
         // CR-LF is required. The gateway won't respond otherwise
         $this->logger->debug("Writing PS=1");
         fwrite($socket, "PS=1\r\n");
