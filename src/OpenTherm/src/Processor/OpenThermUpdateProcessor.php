@@ -95,7 +95,9 @@ class OpenThermUpdateProcessor implements ProcessorInterface
 
         $this->logger->debug("Reading output");
         while (!feof($socket) && $newlines < 2) {
+            $this->logger->debug("Loop: Starting read");
             $out = fread($socket, 4096);
+            $this->logger->debug("Loop: Finished read");
             $newlines += substr_count($out, "\n");
             $data .= $out;
         }
