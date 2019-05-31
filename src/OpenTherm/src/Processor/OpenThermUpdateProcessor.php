@@ -86,6 +86,11 @@ class OpenThermUpdateProcessor implements ProcessorInterface
             throw new \RuntimeException("Connection to {$device->getIdentifier()} failed.");
         }
 
+        // timeout of 10 seconds
+        $timeout = 10;
+        stream_set_timeout($socket, $timeout);
+        $start = time();
+
         // CR-LF is required. The gateway won't respond otherwise
         $this->logger->debug("Writing PS=1");
         fwrite($socket, "PS=1\r\n");
@@ -94,7 +99,7 @@ class OpenThermUpdateProcessor implements ProcessorInterface
         $data = "";
 
         $this->logger->debug("Reading output");
-        while (!feof($socket) && $newlines < 2) {
+        while ((!feof($socket) && (time() - $start) < $timeout) && $newlines < 2) {
             $this->logger->debug("Loop: Starting read");
             $out = fread($socket, 4096);
             $this->logger->debug("Loop: Finished read");
