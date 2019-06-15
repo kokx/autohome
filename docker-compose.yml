@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: ./docker/web/Dockerfile
     volumes:
-      - ./data/database.sqlite:/usr/src/autohome/data/database.sqlite
+      - ./data:/usr/src/autohome/data
       - ./config/autoload/devices.local.php:/config/autoload/devices.local.php:ro
   nginx:
     build:
@@ -18,5 +18,5 @@ services:
       context: .
       dockerfile: ./docker/queue/Dockerfile
     volumes:
-      - ./data/database.sqlite:/usr/src/autohome/data/database.sqlite
+      - ./data:/usr/src/autohome/data
       - ./config/autoload/devices.local.php:/config/autoload/devices.local.php:ro
