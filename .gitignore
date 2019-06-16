@@ -5,3 +5,4 @@ coveralls-upload.json
 phpunit.xml
 vendor/
 node_modules
+docker-compose.yml
