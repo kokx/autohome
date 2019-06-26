@@ -124,7 +124,7 @@ class SensorLogMapper
                     FROM SensorLog
                     WHERE device = :device
                       AND sensor = :sensor
-                      AND date(created_at) >= date('now', '-1 month')
+                      AND date(created_at) >= date('now', '-1 $period')
                     GROUP BY date(created_at)";
 
         $stmt = $this->em->getConnection()->prepare($sql);
