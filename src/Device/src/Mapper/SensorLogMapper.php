@@ -105,6 +105,40 @@ class SensorLogMapper
     }
 
     /**
+     * Find todays data for a sensor.
+     * @param string $device
+     * @param string $sensor
+     * @param \DateTime $day
+     * @return SensorLog[]
+     */
+    public function findStatsForDay(string $device, string $sensor, \DateTime $day) : array
+    {
+        $sql = "SELECT date(created_at) as created_date,
+                       min(state) as minimum,
+                       max(state) as maximum,
+                       avg(state) as average
+                    FROM SensorLog
+                    WHERE device = :device
+                      AND sensor = :sensor
+                      AND created_at >= datetime(:startdate)
+                      AND created_at < datetime(:enddate)
+                    GROUP BY date(created_at)";
+
+        $stmt = $this->em->getConnection()->prepare($sql);
+
+        $end = (clone $day)->add(new \DateInterval('PT24H'));
+
+        $stmt->execute([
+            'device' => $device,
+            'sensor' => $sensor,
+            'startdate' => $day->format('Y-m-d H:i:s'),
+            'enddate' => $end->format('Y-m-d H:i:s'),
+        ]);
+
+        return $stmt->fetchAll();
+    }
+
+    /**
      * Find monthly stats for a sensor.
      *
      * @param string $device
