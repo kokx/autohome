@@ -130,6 +130,14 @@ class GeneralDeviceService
     }
 
     /**
+     * Combine statistics of a sensor for one day.
+     */
+    public function combineStats(DeviceInterface $device, string $sensor, \DateTime $day)
+    {
+        // TODO: combine stats
+    }
+
+    /**
      * Get the day log of a sensor.
      *
      * @return SensorLog[]
