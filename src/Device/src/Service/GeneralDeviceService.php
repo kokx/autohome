@@ -6,6 +6,7 @@ use Device\Device\DeviceInterface;
 use Device\Entity\SensorLog;
 use Device\Mapper\SensorLogMapper;
 use Device\Entity\SensorStatistic;
+use Device\Mapper\SensorStatisticMapper;
 
 /**
  * Provides several services for devices. Mainly centered around data access.
@@ -17,6 +18,11 @@ class GeneralDeviceService
      * @var SensorLogMapper
      */
     protected $sensorLogMapper;
+
+    /**
+     * @var SensorStatisticMapper
+     */
+    protected $sensorStatisticMapper;
 
     /**
      * @var array
@@ -32,12 +38,18 @@ class GeneralDeviceService
      * DeviceService constructor.
      * @param array $config
      * @param SensorLogMapper $sensorLogMapper
+     * @param SensorStatisticMapper $sensorStatisticMapper
      * @param DeviceServiceManager $deviceManager
      */
-    public function __construct(array $config, SensorLogMapper $sensorLogMapper, DeviceServiceManager $deviceManager)
-    {
+    public function __construct(
+        array $config,
+        SensorLogMapper $sensorLogMapper,
+        SensorStatisticMapper $sensorStatisticMapper,
+        DeviceServiceManager $deviceManager
+    ) {
         $this->config = $config;
         $this->sensorLogMapper = $sensorLogMapper;
+        $this->sensorStatisticMapper = $sensorStatisticMapper;
         $this->deviceManager = $deviceManager;
     }
 
@@ -151,6 +163,8 @@ class GeneralDeviceService
 
             $entities[] = $entity;
         }
+
+        $this->sensorStatisticMapper->persistMultiple($entities);
 
         return $entities;
     }

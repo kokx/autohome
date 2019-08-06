@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Device\Mapper;
 
 use Device\Entity\SensorStatistic;
@@ -29,6 +31,18 @@ class SensorStatisticMapper
     public function persist(SensorStatistic $statistic) : void
     {
         $this->em->persist($statistic);
+        $this->em->flush();
+    }
+
+    /**
+     * Persist multiple statistics.
+     * @param SensorStatistic[] $statistics
+     */
+    public function persistMultiple(array $statistics) : void
+    {
+        foreach ($statistics as $statistic) {
+            $this->em->persist($statistic);
+        }
         $this->em->flush();
     }
 }
