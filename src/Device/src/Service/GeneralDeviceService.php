@@ -5,6 +5,7 @@ namespace Device\Service;
 use Device\Device\DeviceInterface;
 use Device\Entity\SensorLog;
 use Device\Mapper\SensorLogMapper;
+use Device\Entity\SensorStatistic;
 
 /**
  * Provides several services for devices. Mainly centered around data access.
@@ -134,7 +135,19 @@ class GeneralDeviceService
      */
     public function combineStats(DeviceInterface $device, string $sensor, \DateTime $day)
     {
-        // TODO: combine stats
+        $stats = $this->sensorLogMapper->findStatsForDay($device->getIdentifier(), $sensor, $day);
+
+        $entity = new SensorStatistic();
+
+        $entity->setDevice($device->getIdentifier());
+        $entity->setSensor($sensor);
+        $entity->setDay($day);
+        $entity->setMaximum($stats['maximum']);
+        $entity->setMinimum($stats['minimum']);
+        $entity->setAverage($stats['average']);
+
+        // TODO: persist statistics
+        return $entity;
     }
 
     /**

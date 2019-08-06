@@ -109,7 +109,7 @@ class SensorLogMapper
      * @param string $device
      * @param string $sensor
      * @param \DateTime $day
-     * @return SensorLog[]
+     * @return array
      */
     public function findStatsForDay(string $device, string $sensor, \DateTime $day) : array
     {
@@ -135,7 +135,7 @@ class SensorLogMapper
             'enddate' => $end->format('Y-m-d H:i:s'),
         ]);
 
-        return $stmt->fetchAll();
+        return $stmt->fetch();
     }
 
     /**
