@@ -107,22 +107,21 @@ class SensorLogMapper
     /**
      * Find todays data for a sensor.
      * @param string $device
-     * @param string $sensor
      * @param \DateTime $day
      * @return array
      */
-    public function findStatsForDay(string $device, string $sensor, \DateTime $day) : array
+    public function findStatsForDay(string $device, \DateTime $day) : array
     {
-        $sql = "SELECT date(created_at) as created_date,
+        $sql = "SELECT sensor,
+                       date(created_at) as created_date,
                        min(state) as minimum,
                        max(state) as maximum,
                        avg(state) as average
                     FROM SensorLog
                     WHERE device = :device
-                      AND sensor = :sensor
                       AND created_at >= datetime(:startdate)
                       AND created_at < datetime(:enddate)
-                    GROUP BY date(created_at)";
+                    GROUP BY sensor";
 
         $stmt = $this->em->getConnection()->prepare($sql);
 
@@ -130,12 +129,11 @@ class SensorLogMapper
 
         $stmt->execute([
             'device' => $device,
-            'sensor' => $sensor,
             'startdate' => $day->format('Y-m-d H:i:s'),
             'enddate' => $end->format('Y-m-d H:i:s'),
         ]);
 
-        return $stmt->fetch();
+        return $stmt->fetchAll();
     }
 
     /**

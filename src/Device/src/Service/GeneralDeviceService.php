@@ -133,21 +133,26 @@ class GeneralDeviceService
     /**
      * Combine statistics of a sensor for one day.
      */
-    public function combineStats(DeviceInterface $device, string $sensor, \DateTime $day)
+    public function combineStats(DeviceInterface $device, \DateTime $day)
     {
-        $stats = $this->sensorLogMapper->findStatsForDay($device->getIdentifier(), $sensor, $day);
+        $stats = $this->sensorLogMapper->findStatsForDay($device->getIdentifier(), $day);
 
-        $entity = new SensorStatistic();
+        $entities = [];
 
-        $entity->setDevice($device->getIdentifier());
-        $entity->setSensor($sensor);
-        $entity->setDay($day);
-        $entity->setMaximum($stats['maximum']);
-        $entity->setMinimum($stats['minimum']);
-        $entity->setAverage($stats['average']);
+        foreach ($stats as $stat) {
+            $entity = new SensorStatistic();
 
-        // TODO: persist statistics
-        return $entity;
+            $entity->setDevice($device->getIdentifier());
+            $entity->setSensor($stat['sensor']);
+            $entity->setDay($day);
+            $entity->setMaximum($stat['maximum']);
+            $entity->setMinimum($stat['minimum']);
+            $entity->setAverage($stat['average']);
+
+            $entities[] = $entity;
+        }
+
+        return $entities;
     }
 
     /**
