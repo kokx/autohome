@@ -28,11 +28,23 @@ class CollectStatsProcessor implements ProcessorInterface
     {
         $devices = $this->generalDeviceService->getAllDevices();
 
+        /**
+         * To determine the day:
+         *
+         * Find the first ('lowest') day such that:
+         * - It is at least 3 days ago (not today, not yesterday, not the day before yesterday)
+         * - The day has SensorLog entries
+         *
+         * This day may not exist
+         */
+
         // TODO: determine day
         $date = new \DateTime('2019-07-02 00:00:00');
 
         foreach ($devices as $device) {
             $this->generalDeviceService->combineStats($device, $date);
         }
+
+        // TODO: remove all sensor logs on $date
     }
 }
