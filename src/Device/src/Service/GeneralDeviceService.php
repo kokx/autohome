@@ -143,6 +143,25 @@ class GeneralDeviceService
     }
 
     /**
+     * Find the first date of a device.
+     *
+     * @param DeviceInterface $device
+     * @return \DateTime
+     */
+    public function getFirstDayWithData(DeviceInterface $device) : ?\DateTime
+    {
+        $date = $this->sensorLogMapper->findFirstDayWithData($device->getIdentifier());
+
+        if ($date === null) {
+            return null;
+        }
+
+        // TODO: ensure it is at least 3 days ago
+
+        return new \DateTime($date);
+    }
+
+    /**
      * Combine statistics of a sensor for one day.
      */
     public function combineStats(DeviceInterface $device, \DateTime $day)

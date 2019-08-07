@@ -36,6 +36,32 @@ class SensorLogMapper
     }
 
     /**
+     * Find the first day with sensor data.
+     */
+    public function findFirstDayWithData(string $device) : string
+    {
+        $sql = "SELECT date(s.created_at) as created_date
+            FROM SensorLog as s
+            WHERE s.device = :device
+            ORDER BY s.created_at ASC
+            LIMIT 1";
+
+        $stmt = $this->em->getConnection()->prepare($sql);
+
+        $stmt->execute([
+            'device' => $device
+        ]);
+
+        $row = $stmt->fetch();
+
+        if ($row === null || empty($row)) {
+            return null;
+        }
+
+        return $row['created_date'];
+    }
+
+    /**
      * Find the last sensor data for a device.
      * @param string $deviceName
      */

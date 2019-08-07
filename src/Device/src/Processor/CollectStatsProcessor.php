@@ -38,13 +38,11 @@ class CollectStatsProcessor implements ProcessorInterface
          * This day may not exist
          */
 
-        // TODO: determine day
-        $date = new \DateTime('2019-07-02 00:00:00');
-
         foreach ($devices as $device) {
+            $date = $this->generalDeviceService->getFirstDayWithData($device);
             $this->generalDeviceService->combineStats($device, $date);
-        }
 
-        // TODO: remove all sensor logs on $date
+            // TODO: remove data on this date
+        }
     }
 }
