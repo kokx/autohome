@@ -27,4 +27,13 @@ $manager->addRepeater(new \Queue\MessageRepeater(
     new \DateInterval('PT4H')
 ));
 
+// vacuum the database every day
+$manager->addRepeater(new \Queue\MessageRepeater(
+    new \Queue\Message\Message(
+        \App\Processor\VacuumProcessor::class,
+        []
+    ),
+    new \DateInterval('PT24H')
+));
+
 $manager->processAll();
