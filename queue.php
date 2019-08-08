@@ -18,4 +18,13 @@ $manager->addRepeater(new \Queue\MessageRepeater(
     new \DateInterval('PT5M')
 ));
 
+// collect statistics every 4 hours
+$manager->addRepeater(new \Queue\MessageRepeater(
+    new \Queue\Message\Message(
+        \Device\Processor\CollectStatsProcessor::class,
+        []
+    ),
+    new \DateInterval('PT4H')
+));
+
 $manager->processAll();
