@@ -5,6 +5,8 @@ namespace Device\Service;
 use Device\Device\DeviceInterface;
 use Device\Entity\SensorLog;
 use Device\Mapper\SensorLogMapper;
+use Device\Entity\SensorStatistic;
+use Device\Mapper\SensorStatisticMapper;
 
 /**
  * Provides several services for devices. Mainly centered around data access.
@@ -16,6 +18,11 @@ class GeneralDeviceService
      * @var SensorLogMapper
      */
     protected $sensorLogMapper;
+
+    /**
+     * @var SensorStatisticMapper
+     */
+    protected $sensorStatisticMapper;
 
     /**
      * @var array
@@ -31,12 +38,18 @@ class GeneralDeviceService
      * DeviceService constructor.
      * @param array $config
      * @param SensorLogMapper $sensorLogMapper
+     * @param SensorStatisticMapper $sensorStatisticMapper
      * @param DeviceServiceManager $deviceManager
      */
-    public function __construct(array $config, SensorLogMapper $sensorLogMapper, DeviceServiceManager $deviceManager)
-    {
+    public function __construct(
+        array $config,
+        SensorLogMapper $sensorLogMapper,
+        SensorStatisticMapper $sensorStatisticMapper,
+        DeviceServiceManager $deviceManager
+    ) {
         $this->config = $config;
         $this->sensorLogMapper = $sensorLogMapper;
+        $this->sensorStatisticMapper = $sensorStatisticMapper;
         $this->deviceManager = $deviceManager;
     }
 
@@ -127,6 +140,52 @@ class GeneralDeviceService
     public function getSensorState(DeviceInterface $device, string $sensor) : SensorLog
     {
         return $this->sensorLogMapper->findSensorState($device->getIdentifier(), $sensor);
+    }
+
+    /**
+     * Find the first date of a device, at least 3 days ago.
+     *
+     * @param DeviceInterface $device
+     * @return \DateTime
+     */
+    public function getFirstDayWithData(DeviceInterface $device) : ?\DateTime
+    {
+        $date = $this->sensorLogMapper->findFirstDayWithData($device->getIdentifier());
+
+        if ($date === null) {
+            return null;
+        }
+
+        return new \DateTime($date);
+    }
+
+    /**
+     * Combine statistics of a sensor for one day.
+     */
+    public function combineStats(DeviceInterface $device, \DateTime $day)
+    {
+        $this->sensorStatisticMapper->transactional(function() use ($device, $day) {
+            $stats = $this->sensorLogMapper->findStatsForDay($device->getIdentifier(), $day);
+
+            $entities = [];
+
+            foreach ($stats as $stat) {
+                $entity = new SensorStatistic();
+
+                $entity->setDevice($device->getIdentifier());
+                $entity->setSensor($stat['sensor']);
+                $entity->setDay($day);
+                $entity->setMaximum($stat['maximum']);
+                $entity->setMinimum($stat['minimum']);
+                $entity->setAverage($stat['average']);
+
+                $entities[] = $entity;
+            }
+
+            $this->sensorStatisticMapper->persistMultiple($entities);
+
+            $this->sensorLogMapper->removeForDay($device->getIdentifier(), $day);
+        });
     }
 
     /**

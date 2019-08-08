@@ -63,13 +63,6 @@ class SensorStatistic
      */
     protected $average;
 
-    /**
-     * Median of the day.
-     * @ORM\Column(type="string")
-     * @var string
-     */
-    protected $median;
-
 
     /**
      * Get the ID.
@@ -187,23 +180,5 @@ class SensorStatistic
     public function setAverage(string $average)
     {
         $this->average = $average;
-    }
-
-    /**
-     * Get the median
-     * @return string
-     */
-    public function getMedian() : string
-    {
-        return $this->median;
-    }
-
-    /**
-     * Set the median
-     * @param string $median
-     */
-    public function setMedian(string $median)
-    {
-        $this->median = $median;
     }
 }

@@ -36,6 +36,32 @@ class SensorLogMapper
     }
 
     /**
+     * Find the first day with sensor data.
+     */
+    public function findFirstDayWithData(string $device) : string
+    {
+        $sql = "SELECT date(s.created_at) as created_date
+            FROM SensorLog as s
+            WHERE s.device = :device
+            ORDER BY s.created_at ASC
+            LIMIT 1";
+
+        $stmt = $this->em->getConnection()->prepare($sql);
+
+        $stmt->execute([
+            'device' => $device
+        ]);
+
+        $row = $stmt->fetch();
+
+        if ($row === null || empty($row)) {
+            return null;
+        }
+
+        return $row['created_date'];
+    }
+
+    /**
      * Find the last sensor data for a device.
      * @param string $deviceName
      */
@@ -105,6 +131,38 @@ class SensorLogMapper
     }
 
     /**
+     * Find todays data for a sensor.
+     * @param string $device
+     * @param \DateTime $day
+     * @return array
+     */
+    public function findStatsForDay(string $device, \DateTime $day) : array
+    {
+        $sql = "SELECT sensor,
+                       date(created_at) as created_date,
+                       min(state) as minimum,
+                       max(state) as maximum,
+                       avg(state) as average
+                    FROM SensorLog
+                    WHERE device = :device
+                      AND created_at >= datetime(:startdate)
+                      AND created_at < datetime(:enddate)
+                    GROUP BY sensor";
+
+        $stmt = $this->em->getConnection()->prepare($sql);
+
+        $end = (clone $day)->add(new \DateInterval('PT24H'));
+
+        $stmt->execute([
+            'device' => $device,
+            'startdate' => $day->format('Y-m-d H:i:s'),
+            'enddate' => $end->format('Y-m-d H:i:s'),
+        ]);
+
+        return $stmt->fetchAll();
+    }
+
+    /**
      * Find monthly stats for a sensor.
      *
      * @param string $device
@@ -135,5 +193,25 @@ class SensorLogMapper
         ]);
 
         return $stmt->fetchAll();
+    }
+
+    /**
+     * Remove data for a single day.
+     *
+     * @param string $device
+     * @param \DateTime $day
+     */
+    public function removeForDay(string $device, \DateTime $day) : void
+    {
+        $sql = "DELETE FROM SensorLog as s
+                    WHERE s.device = :device
+                      AND date(s.created_at) = :day";
+
+        $stmt = $this->em->getConnection()->prepare($sql);
+
+        $stmt->execute([
+            'device' => $device,
+            'day' => $day->format('Y-m-d')
+        ]);
     }
 }
