@@ -165,7 +165,6 @@ class GeneralDeviceService
     public function combineStats(DeviceInterface $device, \DateTime $day)
     {
         $this->sensorStatisticMapper->transactional(function() use ($device, $day) {
-            var_dump($day);
             $stats = $this->sensorLogMapper->findStatsForDay($device->getIdentifier(), $day);
 
             $entities = [];
@@ -185,7 +184,7 @@ class GeneralDeviceService
 
             $this->sensorStatisticMapper->persistMultiple($entities);
 
-            // TODO: use transaction and also remove sensor data from the sensor log
+            $this->sensorLogMapper->removeForDay($device->getIdentifier(), $day);
         });
     }
 

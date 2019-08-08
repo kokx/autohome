@@ -194,4 +194,24 @@ class SensorLogMapper
 
         return $stmt->fetchAll();
     }
+
+    /**
+     * Remove data for a single day.
+     *
+     * @param string $device
+     * @param \DateTime $day
+     */
+    public function removeForDay(string $device, \DateTime $day) : void
+    {
+        $sql = "DELETE FROM SensorLog as s
+                    WHERE s.device = :device
+                      AND date(s.created_at) = :day";
+
+        $stmt = $this->em->getConnection()->prepare($sql);
+
+        $stmt->execute([
+            'device' => $device,
+            'day' => $day->format('Y-m-d')
+        ]);
+    }
 }
