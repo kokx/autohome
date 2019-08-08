@@ -43,6 +43,15 @@ class SensorStatisticMapper
         foreach ($statistics as $statistic) {
             $this->em->persist($statistic);
         }
-        $this->em->flush();
+    }
+
+    /**
+     * Execute a statistic transaction.
+     *
+     * @param callable $transaction
+     */
+    public function transactional(callable $transaction) : void
+    {
+        $this->em->transactional($transaction);
     }
 }

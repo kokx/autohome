@@ -143,7 +143,7 @@ class GeneralDeviceService
     }
 
     /**
-     * Find the first date of a device.
+     * Find the first date of a device, at least 3 days ago.
      *
      * @param DeviceInterface $device
      * @return \DateTime
@@ -156,8 +156,6 @@ class GeneralDeviceService
             return null;
         }
 
-        // TODO: ensure it is at least 3 days ago
-
         return new \DateTime($date);
     }
 
@@ -166,26 +164,29 @@ class GeneralDeviceService
      */
     public function combineStats(DeviceInterface $device, \DateTime $day)
     {
-        $stats = $this->sensorLogMapper->findStatsForDay($device->getIdentifier(), $day);
+        $this->sensorStatisticMapper->transactional(function() use ($device, $day) {
+            var_dump($day);
+            $stats = $this->sensorLogMapper->findStatsForDay($device->getIdentifier(), $day);
 
-        $entities = [];
+            $entities = [];
 
-        foreach ($stats as $stat) {
-            $entity = new SensorStatistic();
+            foreach ($stats as $stat) {
+                $entity = new SensorStatistic();
 
-            $entity->setDevice($device->getIdentifier());
-            $entity->setSensor($stat['sensor']);
-            $entity->setDay($day);
-            $entity->setMaximum($stat['maximum']);
-            $entity->setMinimum($stat['minimum']);
-            $entity->setAverage($stat['average']);
+                $entity->setDevice($device->getIdentifier());
+                $entity->setSensor($stat['sensor']);
+                $entity->setDay($day);
+                $entity->setMaximum($stat['maximum']);
+                $entity->setMinimum($stat['minimum']);
+                $entity->setAverage($stat['average']);
 
-            $entities[] = $entity;
-        }
+                $entities[] = $entity;
+            }
 
-        $this->sensorStatisticMapper->persistMultiple($entities);
+            $this->sensorStatisticMapper->persistMultiple($entities);
 
-        return $entities;
+            // TODO: use transaction and also remove sensor data from the sensor log
+        });
     }
 
     /**

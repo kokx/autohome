@@ -40,9 +40,12 @@ class CollectStatsProcessor implements ProcessorInterface
 
         foreach ($devices as $device) {
             $date = $this->generalDeviceService->getFirstDayWithData($device);
-            $this->generalDeviceService->combineStats($device, $date);
-
-            // TODO: remove data on this date
+            if ($date > new \DateTime('-3 days')) {
+                continue;
+            }
+            if ($date !== null) {
+                $this->generalDeviceService->combineStats($device, $date);
+            }
         }
     }
 }
