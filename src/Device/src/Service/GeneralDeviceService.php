@@ -199,13 +199,15 @@ class GeneralDeviceService
     }
 
     /**
-     * Get the log of a sensor.
+     * Get the month log of a sensor.
      *
      * @return array
      */
     public function getMonthSensorStats(DeviceInterface $device, string $sensor) : array
     {
-        return $this->sensorLogMapper->findPeriodSensorStats($device->getIdentifier(), $sensor);
+        $stats = $this->sensorStatisticMapper->findPeriodSensorStats($device->getIdentifier(), $sensor);
+        $stats = array_merge($stats, $this->sensorLogMapper->findPeriodSensorStats($device->getIdentifier(), $sensor));
+        return $stats;
     }
 
     /**
@@ -215,6 +217,8 @@ class GeneralDeviceService
      */
     public function getYearSensorStats(DeviceInterface $device, string $sensor) : array
     {
-        return $this->sensorLogMapper->findPeriodSensorStats($device->getIdentifier(), $sensor, 'year');
+        $stats = $this->sensorStatisticMapper->findPeriodSensorStats($device->getIdentifier(), $sensor, 'year');
+        $stats = array_merge($stats, $this->sensorLogMapper->findPeriodSensorStats($device->getIdentifier(), $sensor, 'year'));
+        return $stats;
     }
 }
