@@ -47,4 +47,7 @@ $aggregator = new ConfigAggregator([
     new PhpFileProvider(realpath(__DIR__) . '/development.config.php'),
 ], $cacheConfig['config_cache_path']);
 
-return $aggregator->getMergedConfig();
+$config = $aggregator->getMergedConfig();
+$config['devices'] = require realpath(__DIR__) . '/devices.config.php';
+
+return $config;
